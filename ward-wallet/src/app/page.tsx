@@ -2,6 +2,7 @@
 
 import { WalletStatus } from "../components/WalletStatus";
 import { ConnectWallet } from "../components/ConnectWallet";
+import { GetProjectHistory } from "@/components/GetProjectHistory";
 
 export default function Page() {
   return (
@@ -9,6 +10,7 @@ export default function Page() {
       <h1>Besu Wallet Status</h1>
       <WalletStatus />
       <ConnectWallet />
+      <GetProjectHistory />
     </main>
   );
 }

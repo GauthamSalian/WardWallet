@@ -1,3 +1,5 @@
+"use client";
+
 import { useAccount } from "wagmi";
 
 export function WalletStatus() {
@@ -6,7 +8,7 @@ export function WalletStatus() {
   return (
     <div>
       {isConnected ? (
-        <p>Connected wallet: {address}</p>
+        <p>Connected wallet: {address ?? ""}</p>
       ) : (
         <p>No wallet connected</p>
       )}
