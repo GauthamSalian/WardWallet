@@ -23,6 +23,7 @@ export function CreateProposal() {
         BigInt(budget),
         timestamp,
       ],
+      value: BigInt(10000),
     });
   }
 
