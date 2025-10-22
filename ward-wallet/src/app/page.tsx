@@ -3,6 +3,7 @@
 import { WalletStatus } from "../components/WalletStatus";
 import { ConnectWallet } from "../components/ConnectWallet";
 import { GetProjectHistory } from "@/components/GetProjectHistory";
+import { CreateProposal } from "@/components/CreateProposal";
 
 export default function Page() {
   return (
@@ -11,6 +12,7 @@ export default function Page() {
       <WalletStatus />
       <ConnectWallet />
       <GetProjectHistory />
+      <CreateProposal />
     </main>
   );
 }
