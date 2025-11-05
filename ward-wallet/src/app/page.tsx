@@ -22,6 +22,7 @@ export default function Page() {
       <ReportProposal />
       <ApprovalProposal />
       <CompleteProposal />
+      <ReleasePayment />
     </main>
   );
 }

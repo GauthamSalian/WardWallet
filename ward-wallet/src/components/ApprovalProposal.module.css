@@ -1,0 +1,79 @@
+/* This is the main form container */
+.formContainer {
+  /* "A little greyish white background" */
+  background-color: #f9f9f9;
+  color:rgb(47, 47, 47);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  max-width: 500px;
+  margin: 2rem auto; /* Centers the form on the page */
+}
+
+/* This div wraps each label + input pair */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+/* "input boxes with circular sides" */
+.input {
+  font-size: 1rem;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  /* This creates the "circular sides" or "pill" shape */
+  border-radius: 999px; 
+}
+
+/* "nicely formatted" - add a focus state */
+.input:focus {
+  outline: none;
+  border-color: #8b5cf6; /* Purple border on focus */
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); /* Purple glow */
+}
+
+/* "a square button which is purple" */
+.button {
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.9rem 1rem;
+  color: #fff;
+  background-color: #8b5cf6; /* Purple */
+  border: none;
+  border-radius: 4px; /* "Square" (slightly rounded is more modern) */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #7c3aed; /* Darker purple on hover */
+}
+
+.button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+/* "success and error in another div below centrally aligned" */
+.feedbackContainer {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-weight: 600;
+}
+
+.successMessage {
+  color: #16a34a; /* Green */
+}
+
+.errorMessage {
+  color: #dc2626; /* Red */
+}

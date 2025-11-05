@@ -1,65 +1,91 @@
 import { useState } from "react";
 import { useWriteContract } from "wagmi";
 import { MyContractABI } from "@/abis/myContract";
+import styles from "./ApprovalProposal.module.css";
 
 export function CompleteProposal() {
   const [completionId, setCompletionId] = useState("");
   const [approvalId, setApprovalId] = useState("");
   const [ipfsHash, setIpfsHash] = useState("");
-  const timestamp = Math.floor(Date.now() / 1000);
 
-  const { writeContract, isError, isSuccess } = useWriteContract();
+  const { writeContract, isPending, isError, isSuccess } = useWriteContract();
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    handleComplete();
+  }
 
   function handleComplete() {
     writeContract({
-      address: process.env.WARDWALLET_CONTRSCT_KEY as `0x${string}`,
+      address: process.env.NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
       abi: MyContractABI,
       functionName: "markAsComplete",
       args: [
         completionId as `0x${string}`,
         approvalId as `0x${string}`,
         ipfsHash,
-        timestamp,
+        Number(Math.floor(Date.now() / 1000)),
       ],
     });
   }
 
   return (
-    <div>
-      <label htmlFor="CompletionId">Completion ID:</label>
-      <input
-        type="text"
-        name="CompletionId"
-        id="CompletionId"
-        required
-        value={completionId}
-        onChange={(e) => setCompletionId(e.target.value)}
-      />
-      <br />
-      <label htmlFor="ApprovalId">Approval ID:</label>
-      <input
-        type="text"
-        name="ApprovalId"
-        id="ApprovalId"
-        required
-        value={approvalId}
-        onChange={(e) => setApprovalId(e.target.value)}
-      />
-      <br />
-      <label htmlFor="IPFSHash">IPFS Hash:</label>
-      <input
-        type="text"
-        name="ApprovalId"
-        id="ApprovalId"
-        required
-        value={approvalId}
-        onChange={(e) => setIpfsHash(e.target.value)}
-      />
-      <br />
-      <button onClick={handleComplete}>Submit</button>
+    <form onSubmit={handleSubmit} className={styles.formContainer}>
+      <div className={styles.inputGroup}>
+        <label htmlFor="CompletionId" className={styles.label}>
+          Completion ID:
+        </label>
+        <input
+          type="text"
+          name="CompletionId"
+          id="CompletionId"
+          required
+          value={completionId}
+          onChange={(e) => setCompletionId(e.target.value)}
+          className={styles.input}
+        />
+        <br />
+        <label htmlFor="ApprovalId" className={styles.label}>
+          Approval ID:
+        </label>
+        <input
+          type="text"
+          name="ApprovalId"
+          id="ApprovalId"
+          required
+          value={approvalId}
+          onChange={(e) => setApprovalId(e.target.value)}
+          className={styles.input}
+        />
+        <br />
+        <label htmlFor="IPFSHash" className={styles.label}>
+          IPFS Hash:
+        </label>
+        <input
+          type="text"
+          name="IPFSHash"
+          id="IPFSHash"
+          required
+          value={ipfsHash}
+          onChange={(e) => setIpfsHash(e.target.value)}
+          className={styles.input}
+        />
+        <br />
+        <button type="submit" disabled={isPending} className={styles.button}>
+          {isPending ? "Submitting..." : "Submit Completion"}
+        </button>
 
-      {isError && <div>Error occurred while completing transaction.</div>}
-      {isSuccess && <div>Transaction successful!</div>}
-    </div>
+        <div className={styles.feedbackContainer}>
+          {isError && (
+            <p className={styles.errorMessage}>Error completing proposal.</p>
+          )}
+          {isSuccess && (
+            <p className={styles.successMessage}>
+              Proposal marked as complete!
+            </p>
+          )}
+        </div>
+      </div>
+    </form>
   );
 }

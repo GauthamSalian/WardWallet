@@ -1,15 +1,20 @@
-import { use, useState } from "react";
+"use client";
+
+import { useState } from "react";
 import { useWriteContract } from "wagmi";
 import { MyContractABI } from "@/abis/myContract";
+import styles from "./ApprovalProposal.module.css";
 
 export function ReportProposal() {
   const [proposalId, setProposalId] = useState("");
 
-  const { writeContract, isError, isSuccess } = useWriteContract();
+  const { writeContract, isPending, isError, isSuccess } = useWriteContract();
 
-  function handleReport() {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
     writeContract({
-      address: process.env.WARDWALLET_CONTRACT_KEY as `0x${string}`,
+      address: process.env.NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
       abi: MyContractABI,
       functionName: "report",
       args: [proposalId as `0x${string}`],
@@ -17,21 +22,38 @@ export function ReportProposal() {
   }
 
   return (
-    <div>
-      <label htmlFor="ProposalId">Proposal ID:</label>
-      <input
-        type="text"
-        id="ProposalId"
-        name="ProposalId"
-        required
-        value={proposalId}
-        onChange={(e) => setProposalId(e.target.value)}
-      />
-      <br />
-      <button onClick={handleReport}>Report</button>
+    <form onSubmit={handleSubmit} className={styles.formContainer}>
+      <div className={styles.inputGroup}>
+        <label htmlFor="ProposalId" className={styles.label}>
+          Proposal ID to Report:
+        </label>
+        <input
+          type="text"
+          id="ProposalId"
+          name="ProposalId"
+          required
+          value={proposalId}
+          onChange={(e) => setProposalId(e.target.value)}
+          className={styles.input}
+        />
+      </div>
 
-      {isError && <div>Error occurred while reporting proposal.</div>}
-      {isSuccess && <div>Reported Successfully.</div>}
-    </div>
+      <button type="submit" disabled={isPending} className={styles.button}>
+        {isPending ? "Reporting..." : "Report Proposal"}
+      </button>
+
+      <div className={styles.feedbackContainer}>
+        {isError && (
+          <p className={styles.errorMessage}>
+            Error occurred while reporting proposal.
+          </p>
+        )}
+        {isSuccess && (
+          <p className={styles.successMessage}>
+            Proposal reported successfully.
+          </p>
+        )}
+      </div>
+    </form>
   );
 }
