@@ -22,6 +22,7 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
       enabled: isValidBytes32,
     },
   });
+  console.log(data);
 
   return (
     <div style={{ padding: "2rem" }}>
@@ -68,7 +69,6 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
         <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
           <ReportProposal proposalId={proposalId} />
           <VoteProposal proposalId={proposalId} />
-          <ReleasePayment approvalId={proposalId} />
         </div>
       )}
     </div>
