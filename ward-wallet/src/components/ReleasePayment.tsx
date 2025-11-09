@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   useWriteContract,
   useWaitForTransactionReceipt,
@@ -9,8 +9,11 @@ import {
 import { MyContractABI } from "@/abis/myContract";
 import styles from "./ApprovalProposal.module.css";
 
-export function ReleasePayment() {
-  const [approvalId, setApprovalId] = useState("");
+interface ReleasePaymentProps {
+  approvalId: `0x${string}`; // Passed from parent or route
+}
+
+export function ReleasePayment({ approvalId }: ReleasePaymentProps) {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -40,41 +43,32 @@ export function ReleasePayment() {
     enabled: isClient,
   });
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function handleRelease() {
+    if (!approvalId) {
+      console.warn("No approval ID provided.");
+      return;
+    }
+
     writeContract({
       address: process.env.NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
       abi: MyContractABI,
       functionName: "releasePayment",
-      args: [approvalId as `0x${string}`],
+      args: [approvalId],
     });
   }
 
   const isLoading = isPending || isConfirming;
   const isError = isWriteError || isConfirmError;
 
-  if (!isClient) {
-    return null;
-  }
+  if (!isClient) return null;
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
-      <div className={styles.inputGroup}>
-        <label htmlFor="ApprovalId" className={styles.label}>
-          Approval ID to Release Payment:
-        </label>
-        <input
-          type="text"
-          name="ApprovalId"
-          id="ApprovalId"
-          required
-          value={approvalId}
-          onChange={(e) => setApprovalId(e.target.value)}
-          className={styles.input}
-        />
-      </div>
-
-      <button type="submit" disabled={isLoading} className={styles.button}>
+    <div className={styles.releaseContainer}>
+      <button
+        onClick={handleRelease}
+        disabled={isLoading}
+        className={styles.button}
+      >
         {isPending
           ? "Waiting for signature..."
           : isConfirming
@@ -92,6 +86,6 @@ export function ReleasePayment() {
           <p className={styles.errorMessage}>Error releasing payment.</p>
         )}
       </div>
-    </form>
+    </div>
   );
 }

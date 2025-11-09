@@ -1,45 +1,38 @@
 "use client";
 
-import { useState } from "react";
 import { useWriteContract } from "wagmi";
 import { MyContractABI } from "@/abis/myContract";
 import styles from "./ApprovalProposal.module.css";
 
-export function ReportProposal() {
-  const [proposalId, setProposalId] = useState("");
+interface ReportProposalProps {
+  proposalId: `0x${string}`; // Ensure it's passed in as a hex string
+}
 
+export function ReportProposal({ proposalId }: ReportProposalProps) {
   const { writeContract, isPending, isError, isSuccess } = useWriteContract();
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function handleReport() {
+    if (!proposalId) {
+      console.warn("No proposal ID provided.");
+      return;
+    }
 
     writeContract({
       address: process.env.NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
       abi: MyContractABI,
       functionName: "report",
-      args: [proposalId as `0x${string}`],
+      args: [proposalId],
     });
   }
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
-      <div className={styles.inputGroup}>
-        <label htmlFor="ProposalId" className={styles.label}>
-          Proposal ID to Report:
-        </label>
-        <input
-          type="text"
-          id="ProposalId"
-          name="ProposalId"
-          required
-          value={proposalId}
-          onChange={(e) => setProposalId(e.target.value)}
-          className={styles.input}
-        />
-      </div>
-
-      <button type="submit" disabled={isPending} className={styles.button}>
-        {isPending ? "Reporting..." : "Report Proposal"}
+    <div className={styles.reportContainer}>
+      <button
+        onClick={handleReport}
+        disabled={isPending}
+        className={styles.button}
+      >
+        {isPending ? "Reporting..." : "Report This Proposal"}
       </button>
 
       <div className={styles.feedbackContainer}>
@@ -54,6 +47,6 @@ export function ReportProposal() {
           </p>
         )}
       </div>
-    </form>
+    </div>
   );
 }

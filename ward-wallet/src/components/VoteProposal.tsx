@@ -1,44 +1,38 @@
 "use client";
 
-import { useState } from "react";
 import { useWriteContract } from "wagmi";
 import { MyContractABI } from "@/abis/myContract";
 import styles from "./ApprovalProposal.module.css";
 
-export function VoteProposal() {
-  const [proposalId, setProposalId] = useState("");
+interface VoteProposalProps {
+  proposalId: `0x${string}`; // Passed in from parent or route
+}
+
+export function VoteProposal({ proposalId }: VoteProposalProps) {
   const { writeContract, isPending, isError, isSuccess } = useWriteContract();
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function handleVote() {
+    if (!proposalId) {
+      console.warn("No proposal ID provided.");
+      return;
+    }
 
     writeContract({
       address: process.env.NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
       abi: MyContractABI,
       functionName: "vote",
-      args: [proposalId as `0x${string}`],
+      args: [proposalId],
     });
   }
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
-      <div className={styles.inputGroup}>
-        <label htmlFor="ProposalId" className={styles.label}>
-          Proposal ID to Vote On:
-        </label>
-        <input
-          type="text"
-          id="ProposalId"
-          name="ProposalId"
-          required
-          value={proposalId}
-          onChange={(e) => setProposalId(e.target.value)}
-          className={styles.input}
-        />
-      </div>
-
-      <button type="submit" disabled={isPending} className={styles.button}>
-        {isPending ? "Submitting Vote..." : "Vote"}
+    <div className={styles.voteContainer}>
+      <button
+        onClick={handleVote}
+        disabled={isPending}
+        className={styles.button}
+      >
+        {isPending ? "Submitting Vote..." : "Vote on This Proposal"}
       </button>
 
       <div className={styles.feedbackContainer}>
@@ -49,6 +43,6 @@ export function VoteProposal() {
           <p className={styles.successMessage}>Voted successfully!</p>
         )}
       </div>
-    </form>
+    </div>
   );
 }

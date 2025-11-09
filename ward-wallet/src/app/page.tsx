@@ -1,24 +1,43 @@
 "use client";
 import { Navbar } from "@/components/Navbar";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FiSearch } from "react-icons/fi";
-import styles from "./Dashboard.module.css"; // Create this CSS module
+import { useState } from "react";
+import styles from "./Dashboard.module.css";
+import { keccak256, toHex } from "viem";
 
 export default function DashboardPage() {
+  const [searchId, setSearchId] = useState("");
+  const router = useRouter();
+
+  function handleSearchSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const trimmed = searchId.trim();
+    if (trimmed) {
+      const bytes32Id = keccak256(toHex(trimmed));
+      router.push(`/history/${bytes32Id}`);
+    }
+  }
+
   return (
     <>
       <Navbar />
 
       <div className={styles.container}>
         {/* Search Bar */}
-        <div className={styles.searchWrapper}>
+        <form onSubmit={handleSearchSubmit} className={styles.searchWrapper}>
           <input
             type="text"
-            placeholder="Search proposals..."
+            placeholder="Search proposal ID..."
+            value={searchId}
+            onChange={(e) => setSearchId(e.target.value)}
             className={styles.searchInput}
           />
-          <FiSearch className={styles.searchIcon} />
-        </div>
+          <button type="submit" className={styles.searchButton}>
+            <FiSearch className={styles.searchIcon} />
+          </button>
+        </form>
 
         {/* Action Buttons */}
         <div className={styles.buttonGrid}>
