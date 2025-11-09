@@ -1,7 +1,9 @@
 "use client";
+import React from "react";
 
-import { useReadContract } from "wagmi";
 import { MyContractABI } from "@/abis/myContract";
+import { publicClient } from "@/utils/publicClient";
+
 import { ReportProposal } from "@/components/ReportProposal";
 import { VoteProposal } from "@/components/VoteProposal";
 import { ReleasePayment } from "@/components/ReleasePayment";
@@ -12,17 +14,31 @@ interface GetProjectHistoryProps {
 
 export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
   const isValidBytes32 = /^0x[a-fA-F0-9]{64}$/.test(proposalId);
+  const [data, setData] = React.useState<any>(null);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
-  const { data, isError, isLoading, error } = useReadContract({
-    address: process.env.NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
-    abi: MyContractABI,
-    functionName: "getProjectHistory",
-    args: isValidBytes32 ? [proposalId] : undefined,
-    query: {
-      enabled: isValidBytes32,
-    },
-  });
-  console.log(data);
+  React.useEffect(() => {
+    if (!isValidBytes32) return;
+    setIsLoading(true);
+    setError(null);
+    publicClient
+      .readContract({
+        address: process.env
+          .NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
+        abi: MyContractABI,
+        functionName: "getProjectHistory",
+        args: [proposalId],
+      })
+      .then((result) => {
+        setData(result);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message || String(err));
+        setIsLoading(false);
+      });
+  }, [proposalId, isValidBytes32]);
 
   return (
     <div style={{ padding: "2rem" }}>
@@ -36,12 +52,11 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
 
       {isLoading && <p>Loading history...</p>}
 
-      {isError && (
+      {error && (
         <div style={{ color: "red", marginTop: "1rem" }}>
           <strong>Error fetching history:</strong>
           <pre style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
-            {error?.message ||
-              "Unknown error occurred. Please check the proposal ID or try again."}
+            {error}
           </pre>
         </div>
       )}
@@ -54,6 +69,7 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
             borderRadius: "8px",
             overflowX: "auto",
             marginBottom: "2rem",
+            color: "black",
           }}
         >
           {JSON.stringify(
