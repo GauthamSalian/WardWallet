@@ -1,0 +1,144 @@
+.container {
+  min-height: 100vh;
+  min-width: 100vw;
+  height: 100vh;
+  width: 100vw;
+  background: #e3e1e2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 3rem;
+  box-sizing: border-box;
+}
+.title {
+  font-size: 3.2rem;
+  font-weight: 900;
+  margin-bottom: 2.5rem;
+  color: #000000;
+  letter-spacing: 1.5px;
+  text-align: left;
+  width: 100%;
+  max-width: 900px;
+  line-height: 1.1;
+}
+.actions .reportContainer button {
+  background: #e53935 !important;
+  color: #fff !important;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2.2rem;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.actions .reportContainer button:hover {
+  background: #b71c1c !important;
+}
+.actions .reportContainer button{
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #000000;
+  letter-spacing: 1px;
+  text-align: left;
+  width: 100%;
+  max-width: 900px;
+}
+
+.section {
+  background: #fff;
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  border-radius: 16px;
+  margin-bottom: 2.5rem;
+  max-width: 900px;
+  width: 100%;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+  font-size: 1.15rem;
+}
+
+.label {
+  font-weight: 700;
+  color: #000000;
+  margin-right: 0.5rem;
+  min-width: 120px;
+  display: inline-block;
+}
+
+.value {
+  font-family: 'Fira Mono', monospace;
+  color: #222;
+  font-weight: 500;
+}
+
+.status {
+  display: inline-block;
+  padding: 0.2em 1.2em;
+  border-radius: 1em;
+  font-size: 1.1em;
+  font-weight: 700;
+  margin-left: 0.5em;
+  letter-spacing: 1px;
+}
+
+.statusOpen {
+  background: #b2f7ef;
+  color: #00796b;
+}
+
+.statusClosed {
+  background: #ffe0e0;
+  color: #c62828;
+}
+
+
+.actions {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.reportBtn {
+  background: #e53935;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2.2rem;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.reportBtn:hover {
+  background: #b71c1c;
+}
+
+.voteBtn {
+  background: #1976d2;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2.2rem;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.voteBtn:hover {
+  background: #0d47a1;
+}
+
+.notApproved {
+  color: #c62828;
+  font-weight: 600;
+}
+
+@media (max-width: 1000px) {
+  .section, .title {
+    max-width: 98vw;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

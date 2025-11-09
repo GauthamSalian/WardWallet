@@ -6,9 +6,13 @@ import styles from "./ApprovalProposal.module.css";
 
 interface VoteProposalProps {
   proposalId: `0x${string}`; // Passed in from parent or route
+  buttonClassName?: string;
 }
 
-export function VoteProposal({ proposalId }: VoteProposalProps) {
+export function VoteProposal({
+  proposalId,
+  buttonClassName,
+}: VoteProposalProps) {
   const { writeContract, isPending, isError, isSuccess } = useWriteContract();
 
   function handleVote() {
@@ -30,7 +34,7 @@ export function VoteProposal({ proposalId }: VoteProposalProps) {
       <button
         onClick={handleVote}
         disabled={isPending}
-        className={styles.button}
+        className={buttonClassName ? buttonClassName : styles.button}
       >
         {isPending ? "Submitting Vote..." : "Vote on This Proposal"}
       </button>

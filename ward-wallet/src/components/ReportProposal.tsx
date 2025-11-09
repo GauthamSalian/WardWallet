@@ -6,9 +6,13 @@ import styles from "./ApprovalProposal.module.css";
 
 interface ReportProposalProps {
   proposalId: `0x${string}`; // Ensure it's passed in as a hex string
+  buttonClassName?: string;
 }
 
-export function ReportProposal({ proposalId }: ReportProposalProps) {
+export function ReportProposal({
+  proposalId,
+  buttonClassName,
+}: ReportProposalProps) {
   const { writeContract, isPending, isError, isSuccess } = useWriteContract();
 
   function handleReport() {
@@ -30,7 +34,7 @@ export function ReportProposal({ proposalId }: ReportProposalProps) {
       <button
         onClick={handleReport}
         disabled={isPending}
-        className={styles.button}
+        className={buttonClassName ? buttonClassName : styles.button}
       >
         {isPending ? "Reporting..." : "Report This Proposal"}
       </button>
