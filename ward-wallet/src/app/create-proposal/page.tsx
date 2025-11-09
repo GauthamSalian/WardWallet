@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAccount } from "wagmi";
 import Link from "next/link";
 import { useWriteContract } from "wagmi";
 import { MyContractABI } from "@/abis/myContract";
@@ -31,6 +32,18 @@ export default function CreateProposalPage() {
 
   const { writeContract, isError, isPending, isSuccess, error } =
     useWriteContract();
+
+  const { address } = useAccount();
+
+  // keep pending proposal data so we can persist it off-chain after tx succeeds
+  const [pendingProposal, setPendingProposal] = useState<null | {
+    id: string;
+    title: string;
+    proposer_address?: string | null;
+    status?: string;
+    budget?: number | string;
+    ipfs_hash?: string | null;
+  }>(null);
 
   async function handleIpfsUpload(): Promise<string> {
     if (!file) throw new Error("No file selected.");
@@ -78,6 +91,16 @@ export default function CreateProposalPage() {
 
       console.log("Submitting proposal with ID:", proposalId);
 
+      // remember data to persist after transaction is mined
+      setPendingProposal({
+        id: proposalId as string,
+        title,
+        proposer_address: address ?? null,
+        status: "open",
+        budget: Number(budget) || 0,
+        ipfs_hash: ipfsHash,
+      });
+
       writeContract({
         address: process.env
           .NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
@@ -100,6 +123,35 @@ export default function CreateProposalPage() {
       alert(`Error: ${errorMessage}`);
     }
   }
+
+  // when transaction is successful (isSuccess) and we have pendingProposal, persist it off-chain
+  useEffect(() => {
+    if (!isSuccess || !pendingProposal) return;
+
+    (async () => {
+      try {
+        const res = await fetch("/api/proposals", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(pendingProposal),
+        });
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          console.warn(
+            "Failed to persist proposal off-chain:",
+            res.status,
+            body
+          );
+        } else {
+          console.log("Proposal persisted off-chain");
+          // clear pending proposal after successful persist
+          setPendingProposal(null);
+        }
+      } catch (err) {
+        console.error("Error persisting proposal:", err);
+      }
+    })();
+  }, [isSuccess, pendingProposal]);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files?.[0]) setFile(e.target.files[0]);

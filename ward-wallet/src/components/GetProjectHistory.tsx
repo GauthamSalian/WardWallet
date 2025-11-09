@@ -7,6 +7,7 @@ import { publicClient } from "@/utils/publicClient";
 import { ReportProposal } from "@/components/ReportProposal";
 import { VoteProposal } from "@/components/VoteProposal";
 import { ReleasePayment } from "@/components/ReleasePayment";
+import { IpfsViewer } from "@/components/IpfsViewer";
 import styles from "./ProjectHistory.module.css";
 
 interface GetProjectHistoryProps {
@@ -118,6 +119,8 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
             <span className={styles.label}>IPFS Hash:</span>
             <span className={styles.value}>{data.proposal.ipfsHash}</span>
           </div>
+          {/* Display IPFS metadata/files */}
+          <IpfsViewer ipfsHash={data.proposal.ipfsHash} />
           <div>
             <span className={styles.label}>Timestamp:</span>
             <span className={styles.value}>{data.proposal.timestamp}</span>

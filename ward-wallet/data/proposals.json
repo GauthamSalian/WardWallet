@@ -1,0 +1,26 @@
+[
+  {
+    "id": "0xfe649c7d64a84f6b809ca1342d533a8847e6b5d339693122c1e8552c5d6ec744",
+    "title": "Fix Street Lights in Sector 9",
+    "proposer_address": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
+    "status": "open",
+    "budget": 1000000000,
+    "bondAmount": 10000,
+    "voteCount": 2,
+    "reportCount": 2,
+    "ipfs_hash": "bafybeih6tztra6u2rlub6m6h5aw4yqurtqrczoayhjlngrg7wt45afyl2i",
+    "timestamp": 1762666980,
+    "created_at": "2025-11-09T00:03:00.000Z",
+    "approval": "Not approved",
+    "completion": "Not completed"
+  },
+  {
+    "id": "0x3c3c9edeffd9be36caf9b935d7778f4c9dd371fba97c8a0d6459f8f093bf287b",
+    "title": "Solar Streetlights for Sector 9",
+    "proposer_address": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
+    "status": "open",
+    "budget": 100000,
+    "ipfs_hash": "bafkreiajw2wlnc25pdimeunzrrrxv254jvegr6wm6224c4wotx5wf6tk7a",
+    "created_at": "2025-11-09T15:11:38.489Z"
+  }
+]
