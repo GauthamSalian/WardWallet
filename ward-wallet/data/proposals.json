@@ -22,5 +22,14 @@
     "budget": 100000,
     "ipfs_hash": "bafkreiajw2wlnc25pdimeunzrrrxv254jvegr6wm6224c4wotx5wf6tk7a",
     "created_at": "2025-11-09T15:11:38.489Z"
+  },
+  {
+    "id": "0xd4983c6f5546340d1d3daa682b6ce130a642b6e677b6bef04534f8908103abf3",
+    "title": "Smart Water Monitoring for Sector 9",
+    "proposer_address": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
+    "status": "open",
+    "budget": 15000000000,
+    "ipfs_hash": "bafybeiggjndc43shxejidxlxovq7sfdmd2q4n5mlpvqygxivbho5lh3u7q",
+    "created_at": "2025-11-10T03:13:51.017Z"
   }
 ]

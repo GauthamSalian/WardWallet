@@ -1,6 +1,6 @@
 "use client";
 
-import { useWriteContract } from "wagmi";
+import { useWriteContract, useAccount } from "wagmi";
 import { MyContractABI } from "@/abis/myContract";
 import styles from "./ApprovalProposal.module.css";
 
@@ -14,19 +14,40 @@ export function VoteProposal({
   buttonClassName,
 }: VoteProposalProps) {
   const { writeContract, isPending, isError, isSuccess } = useWriteContract();
+  const { address } = useAccount();
 
-  function handleVote() {
+  async function handleVote() {
     if (!proposalId) {
       console.warn("No proposal ID provided.");
       return;
     }
 
-    writeContract({
-      address: process.env.NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
-      abi: MyContractABI,
-      functionName: "vote",
-      args: [proposalId],
-    });
+    try {
+      await writeContract({
+        address: process.env
+          .NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
+        abi: MyContractABI,
+        functionName: "vote",
+        args: [proposalId],
+      });
+
+      // Log the interaction after successful vote
+      if (address) {
+        await fetch("/api/interactions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: address,
+            proposalId,
+            action: "vote",
+          }),
+        });
+      }
+    } catch (error) {
+      console.error("Error voting on proposal:", error);
+    }
   }
 
   return (
