@@ -1,8 +1,13 @@
 .container {
+  width: 100%;
   min-height: 100vh;
-  padding: 2rem;
-  background: linear-gradient(to bottom, #0F172A, #1E293B);
-  color: #F8FAFC;
+  padding: 40px 20px;
+  background:
+    radial-gradient(1000px 700px at 0% 25%, rgba(124,58,237,0.26), transparent 70%),
+    radial-gradient(1000px 700px at 100% 25%, rgba(34,211,238,0.26), transparent 70%),
+    radial-gradient(900px 620px at 50% 100%, rgba(245,158,11,0.12), transparent 70%),
+    var(--bg);
+  color: var(--text);
 }
 
 .header {
