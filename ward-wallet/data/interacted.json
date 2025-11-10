@@ -19,6 +19,11 @@
       "proposalId": "0xd4983c6f5546340d1d3daa682b6ce130a642b6e677b6bef04534f8908103abf3",
       "action": "report",
       "timestamp": 1762744464665
+    },
+    {
+      "proposalId": "0xfe649c7d64a84f6b809ca1342d533a8847e6b5d339693122c1e8552c5d6ec744",
+      "action": "report",
+      "timestamp": 1762789865197
     }
   ]
 }

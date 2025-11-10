@@ -8,6 +8,9 @@ import { publicClient } from "@/utils/publicClient";
 import { ReportProposal } from "@/components/ReportProposal";
 import { VoteProposal } from "@/components/VoteProposal";
 import { IpfsViewer } from "@/components/IpfsViewer";
+import { ApprovalProposal } from "@/components/ApproveProposal";
+import { CompleteProposal } from "@/components/CompletedWork";
+import { ActionButton } from "@/components/ActionButton";
 import styles from "@/app/history/[id]/GetHistory.module.css";
 
 interface ProjectHistoryData {
@@ -36,12 +39,18 @@ interface GetProjectHistoryProps {
 }
 
 function formatAddress(addr: string) {
-  return addr && addr !== "0x0000000000000000000000000000000000000000"
+  return addr && !isZeroAddress(addr)
     ? addr.slice(0, 6) + "..." + addr.slice(-4)
     : "-";
 }
 
+const isZeroAddress = (addr?: string) =>
+  !addr ||
+  addr === "0x0000000000000000000000000000000000000000000000000000000000000000";
+
 export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
+  const [showApprovalForm, setShowApprovalForm] = React.useState(false);
+  const [showCompletionForm, setShowCompletionForm] = React.useState(false);
   const isValidBytes32 = /^0x[a-fA-F0-9]{64}$/.test(proposalId);
   const [data, setData] = React.useState<ProjectHistoryData | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -162,38 +171,110 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
 
             <div className={styles.infoRow}>
               <span className={styles.label}>Approval:</span>
-              <span className={`${styles.value} ${styles.approvalStatus}`}>
+              <span
+                className={`${styles.value} ${styles.approvalStatus} ${
+                  data.approval?.approvalId &&
+                  data.approval.approvalId !==
+                    "0x0000000000000000000000000000000000000000000000000000000000000000"
+                    ? styles.approved
+                    : styles.notApproved
+                }`}
+              >
                 {data.approval &&
                 data.approval.approvalId &&
                 data.approval.approvalId !==
                   "0x0000000000000000000000000000000000000000000000000000000000000000"
-                  ? data.approval.approvalId
+                  ? `Approved (ID: ${formatAddress(data.approval.approvalId)})`
                   : "Not approved"}
               </span>
             </div>
 
             <div className={styles.infoRow}>
               <span className={styles.label}>Completion:</span>
-              <span className={`${styles.value} ${styles.completionStatus}`}>
+              <span
+                className={`${styles.value} ${styles.completionStatus} ${
+                  data.completion?.completionId &&
+                  data.completion.completionId !==
+                    "0x0000000000000000000000000000000000000000000000000000000000000000"
+                    ? styles.completed
+                    : styles.notCompleted
+                }`}
+              >
                 {data.completion &&
                 data.completion.completionId &&
                 data.completion.completionId !==
                   "0x0000000000000000000000000000000000000000000000000000000000000000"
-                  ? data.completion.completionId
+                  ? `Completed (ID: ${formatAddress(data.completion.completionId)})`
                   : "Not completed"}
               </span>
             </div>
           </div>
 
           <div className={styles.actions}>
-            <ReportProposal
-              proposalId={proposalId}
-              buttonClassName={styles.reportBtn}
-            />
-            <VoteProposal
-              proposalId={proposalId}
-              buttonClassName={styles.voteBtn}
-            />
+            <div className={styles.actionsGrid}>
+              <ReportProposal
+                proposalId={proposalId}
+                buttonClassName={styles.reportBtn}
+              />
+              <VoteProposal
+                proposalId={proposalId}
+                buttonClassName={styles.voteBtn}
+              />
+              {/* Show Approve button only when approval is not done */}
+              {isZeroAddress(data?.approval?.approvalId) && (
+                <>
+                  <ActionButton
+                    onClick={() => setShowApprovalForm(true)}
+                    variant="approve"
+                  >
+                    Approve Proposal
+                  </ActionButton>
+                  {showApprovalForm && (
+                    <div
+                      className={styles.modalOverlay}
+                      onClick={() => setShowApprovalForm(false)}
+                    >
+                      <div
+                        className={styles.modalContent}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ApprovalProposal
+                          defaultProposalId={proposalId}
+                          onClose={() => setShowApprovalForm(false)}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+              {/* Show Complete button only when approval is done but completion is not */}
+              {!isZeroAddress(data?.approval?.approvalId) &&
+                isZeroAddress(data?.completion?.completionId) && (
+                  <>
+                    <ActionButton
+                      onClick={() => setShowCompletionForm(true)}
+                      variant="complete"
+                    >
+                      Complete Proposal
+                    </ActionButton>
+                    {showCompletionForm && (
+                      <div
+                        className={styles.modalOverlay}
+                        onClick={() => setShowCompletionForm(false)}
+                      >
+                        <div
+                          className={styles.modalContent}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <CompleteProposal
+                            onClose={() => setShowCompletionForm(false)}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
+            </div>
           </div>
         </div>
       )}

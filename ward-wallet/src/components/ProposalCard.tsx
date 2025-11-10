@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import styles from "./ProposalCard.module.css";
+import { ApprovalProposal } from "./ApproveProposal";
+import approvalStyles from "./ApprovalProposal.module.css";
 
 interface ProposalCardProps {
   id: string;
@@ -21,6 +23,7 @@ export function ProposalCard({
   budget,
   ipfs_hash,
 }: ProposalCardProps) {
+  const [showApprove, setShowApprove] = useState(false);
   return (
     <div className={styles.card}>
       <div className={styles.titleRow}>
@@ -39,6 +42,29 @@ export function ProposalCard({
         <Link className={styles.link} href={`/history/${id}`}>
           View History
         </Link>
+        <button
+          className={styles.link}
+          style={{ marginLeft: 12 }}
+          onClick={() => setShowApprove(true)}
+        >
+          Approve
+        </button>
+        {showApprove && (
+          <div
+            className={approvalStyles.modalOverlay}
+            onClick={() => setShowApprove(false)}
+          >
+            <div
+              className={approvalStyles.modalContent}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ApprovalProposal
+                defaultProposalId={id}
+                onClose={() => setShowApprove(false)}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

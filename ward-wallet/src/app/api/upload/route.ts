@@ -20,32 +20,39 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: "Uploaded file is missing or invalid." }, { status: 400 });
     }
 
-    // --- Extract metadata ---
-    const title = formData.get("title");
-    const description = formData.get("description");
-    const budget = formData.get("budget");
-    const id = formData.get("id");
-    const latitude = formData.get("latitude");
-    const longitude = formData.get("longitude");
+    // --- Extract metadata (be permissive: accept varied client fields like approvalId/title/etc.) ---
+    const titleVal = formData.get("title");
+    const descriptionVal = formData.get("description");
+    const budgetVal = formData.get("budget");
+    const idVal = formData.get("id");
+    const approvalIdVal = formData.get("approvalId");
 
-    if (
-      typeof title !== "string" ||
-      typeof description !== "string" ||
-      typeof budget !== "string" ||
-      typeof id !== "string"
-    ) {
-      return NextResponse.json({ error: "Invalid metadata format." }, { status: 400 });
-    }
+    const title = typeof titleVal === "string" ? titleVal : "";
+    const description = typeof descriptionVal === "string" ? descriptionVal : "";
+    const budget = typeof budgetVal === "string" ? budgetVal : "";
+    const id = typeof idVal === "string" ? idVal : "";
+    const approvalId = typeof approvalIdVal === "string" ? approvalIdVal : "";
 
-    const keyvalues: Record<string, string> = {
-      title,
-      description,
-      budget,
-      id,
-    };
+    // Build keyvalues only for provided metadata (avoid strict failure so clients can send minimal fields)
+    const keyvalues: Record<string, string> = {};
+    if (title) keyvalues.title = title;
+    if (description) keyvalues.description = description;
+    if (budget) keyvalues.budget = budget;
+    if (id) keyvalues.id = id;
+    if (approvalId) keyvalues.approvalId = approvalId;
 
     // --- Construct FormData for Pinata ---
-    const filename = `${id}.pdf`;
+    // derive a safe filename: prefer id, then approvalId, then title, else timestamp
+    const baseName = id || approvalId || title || `file-${Date.now()}`;
+    let filename = String(baseName);
+    // if the uploaded entry is a File and has a name, prefer that name
+    if (fileEntry instanceof File && fileEntry.name) {
+      filename = fileEntry.name;
+    } else {
+      // ensure an extension exists (default to .bin)
+      if (!/\.[a-z0-9]+$/i.test(filename)) filename = `${filename}.bin`;
+    }
+
     const pinataFormData = new FormData();
     pinataFormData.append("file", fileEntry, filename);
 

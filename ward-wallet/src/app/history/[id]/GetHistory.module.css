@@ -167,11 +167,39 @@
 }
 
 .approvalStatus {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.approved {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.notApproved {
+  background: rgba(239, 68, 68, 0.1);
   color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .completionStatus {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.completed {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.notCompleted {
+  background: rgba(239, 68, 68, 0.1);
   color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 /* Responsive adjustments */
@@ -190,8 +218,69 @@
   }
 }
 
+/* Actions section */
+.actions {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modalContent {
+  background: var(--bg);
+  padding: 2rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+}
+
+.actionButton {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: neonGlow 3.2s ease-in-out infinite;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--neon1), var(--neon2));
+}
+
+/* Action button wrapper */
+.actionButton {
+  width: 100%;
+}
+
 /* Glowing button styles */
 .reportBtn {
+  width: 100%;
   background: linear-gradient(135deg, #e53935, #b71c1c);
   color: var(--white);
   font-weight: 700;
@@ -210,6 +299,7 @@
 }
 
 .voteBtn {
+  width: 100%;
   background: linear-gradient(135deg, var(--neon1), var(--neon2));
   color: var(--white);
   font-weight: 700;

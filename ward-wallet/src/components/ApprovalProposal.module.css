@@ -118,3 +118,19 @@
   text-shadow: 0 0 8px rgba(248, 113, 113, 0.5);
   animation: neonGlow 2s ease-in-out infinite;
 }
+
+/* Modal overlay (used when showing the approval form in a popup) */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.6);
+  display: grid;
+  place-items: center;
+  z-index: 1200;
+}
+
+.modalContent {
+  width: min(720px, 96%);
+  padding: 20px;
+  border-radius: 16px;
+}

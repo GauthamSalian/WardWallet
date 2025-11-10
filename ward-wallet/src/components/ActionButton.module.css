@@ -1,0 +1,49 @@
+.actionButton {
+  width: 100%;
+  padding: 14px 24px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  animation: neonGlow 3.2s ease-in-out infinite;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--white);
+}
+
+.approve {
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
+}
+
+.complete {
+  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+}
+
+.actionButton:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 22px rgba(74,222,128,0.45), 0 0 32px rgba(34,211,238,0.45);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: var(--bg);
+  padding: 2rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
