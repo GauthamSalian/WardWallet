@@ -2,13 +2,41 @@
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #0F172A, #1E293B);
+  color: #F8FAFC;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #94A3B8;
+  text-decoration: none;
+  transition: color 0.2s;
+  font-size: 1rem;
+}
+
+.backButton:hover {
+  color: #F8FAFC;
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 2rem;
-  color: #333;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #A855F7 0%, #8B5CF6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
 }
 
 .notice {
@@ -21,53 +49,84 @@
 
 .filters {
   display: flex;
+  justify-content: center;
   gap: 1rem;
   margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
 }
 
 .filterButton {
-  padding: 0.5rem 1rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 6px;
-  background-color: transparent;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid rgba(148, 163, 184, 0.1);
+  border-radius: 12px;
+  background: transparent;
+  color: #94A3B8;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
   font-weight: 500;
+  font-size: 1rem;
 }
 
 .filterButton:hover {
-  background-color: #f7fafc;
+  background: rgba(148, 163, 184, 0.1);
+  color: #F8FAFC;
+  border-color: rgba(148, 163, 184, 0.2);
 }
 
 .filterButton.active {
-  background-color: #4299e1;
+  background: linear-gradient(135deg, #A855F7 0%, #8B5CF6 100%);
   color: white;
-  border-color: #4299e1;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(168, 85, 247, 0.2);
 }
 
 .loading {
   text-align: center;
-  color: #666;
+  color: #94A3B8;
   padding: 2rem;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .interactionsList {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  padding: 1rem;
 }
 
 .interactionCard {
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 16px;
   padding: 1.5rem;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s;
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .interactionCard:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  border-color: rgba(168, 85, 247, 0.2);
 }
 
 .interactionHeader {
@@ -85,36 +144,45 @@
 }
 
 .badge.vote {
-  background-color: #9ae6b4;
-  color: #22543d;
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
 }
 
 .badge.report {
-  background-color: #feb2b2;
-  color: #742a2a;
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  color: white;
 }
 
 .timestamp {
   font-size: 0.875rem;
-  color: #718096;
+  color: #94A3B8;
 }
 
 .proposalId {
-  font-family: monospace;
-  color: #4a5568;
+  font-family: 'JetBrains Mono', monospace;
+  color: #E2E8F0;
   margin-bottom: 1rem;
+  font-size: 0.9rem;
+  background: rgba(30, 41, 59, 0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
 }
 
 .viewLink {
-  display: inline-block;
-  color: #4299e1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #A855F7;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s;
+  transition: all 0.2s;
+  margin-top: 1rem;
 }
 
 .viewLink:hover {
-  color: #2b6cb0;
+  color: #8B5CF6;
+  gap: 0.75rem;
 }
 
 .noInteractions {

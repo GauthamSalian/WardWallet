@@ -1,13 +1,38 @@
+:root {
+  --bg: #070816;
+  --panel: rgba(18, 20, 42, 0.55);
+  --white: #ffffff;
+  --text: #e7e8ff;
+  --muted: #9aa0c3;
+  --neon1: #7c3aed;
+  --neon2: #22d3ee;
+  --neon3: #f59e0b;
+}
+
+@keyframes neonGlow {
+  0% { box-shadow: 0 0 5px rgba(124,58,237,.2), 0 0 10px rgba(34,211,238,.1); }
+  50% { box-shadow: 0 0 20px rgba(124,58,237,.4), 0 0 30px rgba(34,211,238,.2); }
+  100% { box-shadow: 0 0 5px rgba(124,58,237,.2), 0 0 10px rgba(34,211,238,.1); }
+}
+
+@keyframes formFloat {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
 /* This is the main form container */
 .formContainer {
-  /* "A little greyish white background" */
-  background-color: #f9f9f9;
-  color:rgb(47, 47, 47);
+  background: var(--panel);
+  color: var(--text);
   padding: 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  border-radius: 24px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   max-width: 500px;
-  margin: 2rem auto; /* Centers the form on the page */
+  margin: 2rem auto;
+  animation: formFloat 6s ease-in-out infinite;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
 }
 
 /* This div wraps each label + input pair */
@@ -18,62 +43,78 @@
 }
 
 .label {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: #555;
+  color: var(--white);
   margin-bottom: 0.5rem;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
-/* "input boxes with circular sides" */
+/* Input styling */
 .input {
   font-size: 1rem;
   padding: 0.8rem 1rem;
-  border: 1px solid #ddd;
-  /* This creates the "circular sides" or "pill" shape */
-  border-radius: 999px; 
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
 }
 
-/* "nicely formatted" - add a focus state */
+/* Input focus state */
 .input:focus {
   outline: none;
-  border-color: #8b5cf6; /* Purple border on focus */
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); /* Purple glow */
+  border-color: var(--neon1);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+  background: rgba(255, 255, 255, 0.1);
 }
 
-/* "a square button which is purple" */
+/* Button styling */
 .button {
   width: 100%;
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 0.9rem 1rem;
-  color: #fff;
-  background-color: #8b5cf6; /* Purple */
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 1rem 1.5rem;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--neon1), var(--neon2));
   border: none;
-  border-radius: 4px; /* "Square" (slightly rounded is more modern) */
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+  animation: neonGlow 3.2s ease-in-out infinite;
 }
 
 .button:hover:not(:disabled) {
-  background-color: #7c3aed; /* Darker purple on hover */
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 22px rgba(124,58,237,0.45), 0 0 32px rgba(34,211,238,0.45);
 }
 
 .button:disabled {
-  background-color: #ddd;
+  background: var(--muted);
+  opacity: 0.5;
   cursor: not-allowed;
+  animation: none;
 }
 
-/* "success and error in another div below centrally aligned" */
+/* Feedback messages */
 .feedbackContainer {
   text-align: center;
   margin-top: 1.5rem;
   font-weight: 600;
+  padding: 1rem;
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
 }
 
 .successMessage {
-  color: #16a34a; /* Green */
+  color: #4ade80;
+  text-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+  animation: neonGlow 2s ease-in-out infinite;
 }
 
 .errorMessage {
-  color: #dc2626; /* Red */
+  color: #f87171;
+  text-shadow: 0 0 8px rgba(248, 113, 113, 0.5);
+  animation: neonGlow 2s ease-in-out infinite;
 }
