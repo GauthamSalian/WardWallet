@@ -202,6 +202,24 @@
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
+.subTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, var(--neon2), var(--neon1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.infoSection {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  border-left: 3px solid rgba(34, 211, 238, 0.3);
+}
+
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .infoRow {

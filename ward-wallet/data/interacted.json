@@ -24,6 +24,21 @@
       "proposalId": "0xfe649c7d64a84f6b809ca1342d533a8847e6b5d339693122c1e8552c5d6ec744",
       "action": "report",
       "timestamp": 1762789865197
+    },
+    {
+      "proposalId": "0x3c3c9edeffd9be36caf9b935d7778f4c9dd371fba97c8a0d6459f8f093bf287b",
+      "action": "vote",
+      "timestamp": 1762829904120
+    },
+    {
+      "proposalId": "0x3c3c9edeffd9be36caf9b935d7778f4c9dd371fba97c8a0d6459f8f093bf287b",
+      "action": "vote",
+      "timestamp": 1762829928200
+    },
+    {
+      "proposalId": "0x3c3c9edeffd9be36caf9b935d7778f4c9dd371fba97c8a0d6459f8f093bf287b",
+      "action": "vote",
+      "timestamp": 1762830050402
     }
   ]
 }

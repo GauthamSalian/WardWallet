@@ -28,9 +28,16 @@ interface ProjectHistoryData {
   };
   approval?: {
     approvalId: `0x${string}`;
+    proposalId: `0x${string}`;
+    completionId: `0x${string}`;
+    official: `0x${string}`;
+    contractor: `0x${string}`;
+    timestamp: number;
   };
   completion?: {
     completionId: `0x${string}`;
+    completionNotesIpfsHash: string;
+    timestamp: number;
   };
 }
 
@@ -208,6 +215,74 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
                   : "Not completed"}
               </span>
             </div>
+
+            {/* Approval Details Section */}
+            {data.approval && !isZeroAddress(data.approval.approvalId) && (
+              <div className={styles.infoSection}>
+                <h2 className={styles.subTitle}>Approval Details</h2>
+                <div className={styles.infoRow}>
+                  <span className={styles.label}>Approval ID:</span>
+                  <span className={styles.value}>
+                    {formatAddress(data.approval.approvalId)}
+                  </span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.label}>Official:</span>
+                  <span className={styles.value}>
+                    {formatAddress(data.approval.official)}
+                  </span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.label}>Contractor:</span>
+                  <span className={styles.value}>
+                    {formatAddress(data.approval.contractor)}
+                  </span>
+                </div>
+                <div className={styles.infoRow}>
+                  <span className={styles.label}>Approval Timestamp:</span>
+                  <span className={styles.value}>
+                    {new Date(
+                      Number(data.approval.timestamp) * 1000
+                    ).toLocaleString()}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Completion Details Section */}
+            {data.completion &&
+              !isZeroAddress(data.completion.completionId) && (
+                <div className={styles.infoSection}>
+                  <h2 className={styles.subTitle}>Completion Details</h2>
+                  <div className={styles.infoRow}>
+                    <span className={styles.label}>Completion ID:</span>
+                    <span className={styles.value}>
+                      {formatAddress(data.completion.completionId)}
+                    </span>
+                  </div>
+                  <div className={styles.infoRow}>
+                    <span className={styles.label}>
+                      Completion Notes IPFS Hash:
+                    </span>
+                    <span className={styles.value}>
+                      {data.completion.completionNotesIpfsHash}
+                    </span>
+                  </div>
+                  <div className={styles.fileSection}>
+                    <IpfsViewer
+                      ipfsHash={data.completion.completionNotesIpfsHash}
+                    />
+                  </div>
+                  <div className={styles.infoRow}>
+                    <span className={styles.label}>Completion Timestamp:</span>
+                    <span className={styles.value}>
+                      {new Date(
+                        Number(data.completion.timestamp) * 1000
+                      ).toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              )}
           </div>
 
           <div className={styles.actions}>
