@@ -10,6 +10,7 @@ import { VoteProposal } from "@/components/VoteProposal";
 import { IpfsViewer } from "@/components/IpfsViewer";
 import { ApprovalProposal } from "@/components/ApproveProposal";
 import { CompleteProposal } from "@/components/CompletedWork";
+import { ReleasePayment } from "@/components/ReleasePayment";
 import { ActionButton } from "@/components/ActionButton";
 import styles from "@/app/history/[id]/GetHistory.module.css";
 
@@ -348,6 +349,11 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
                       </div>
                     )}
                   </>
+                )}
+              {/* Show Release Payment button only when completion is done */}
+              {!isZeroAddress(data?.completion?.completionId) &&
+                data?.approval?.approvalId && (
+                  <ReleasePayment approvalId={data.approval.approvalId} />
                 )}
             </div>
           </div>
