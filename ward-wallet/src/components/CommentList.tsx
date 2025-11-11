@@ -50,7 +50,9 @@ export function CommentList({ proposalId }: { proposalId: string }) {
     <div className={styles.commentListContainer}>
       <h3 className={styles.title}>Project Comments ({comments.length})</h3>
       {comments.length === 0 ? (
-        <div className={styles.emptyState}>No comments yet. Be the first to comment!</div>
+        <div className={styles.emptyState}>
+          No comments yet. Be the first to comment!
+        </div>
       ) : (
         <div className={styles.commentsList}>
           {comments.map((comment) => (

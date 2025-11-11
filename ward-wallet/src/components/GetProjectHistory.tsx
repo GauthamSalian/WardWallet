@@ -364,8 +364,11 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
           </div>
 
           {/* Comments Section */}
-          <CommentList proposalId={proposalId} key={refreshComments ? 'refresh' : 'normal'} />
-          
+          <CommentList
+            proposalId={proposalId}
+            key={refreshComments ? "refresh" : "normal"}
+          />
+
           {address && (
             <CommentForm
               proposalId={proposalId}

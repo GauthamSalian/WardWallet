@@ -9,7 +9,11 @@ interface CommentFormProps {
   onCommentSubmitted?: () => void;
 }
 
-export function CommentForm({ proposalId, author, onCommentSubmitted }: CommentFormProps) {
+export function CommentForm({
+  proposalId,
+  author,
+  onCommentSubmitted,
+}: CommentFormProps) {
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,7 +43,7 @@ export function CommentForm({ proposalId, author, onCommentSubmitted }: CommentF
       setComment("");
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
-      
+
       if (onCommentSubmitted) {
         onCommentSubmitted();
       }
@@ -81,7 +85,11 @@ export function CommentForm({ proposalId, author, onCommentSubmitted }: CommentF
         </div>
 
         {error && <div className={styles.errorMessage}>{error}</div>}
-        {success && <div className={styles.successMessage}>Comment posted successfully!</div>}
+        {success && (
+          <div className={styles.successMessage}>
+            Comment posted successfully!
+          </div>
+        )}
       </form>
     </div>
   );
