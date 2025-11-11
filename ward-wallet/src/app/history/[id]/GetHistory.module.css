@@ -214,7 +214,8 @@
 }
 
 .infoSection {
-  margin-top: 1.5rem;
+  margin-top: 2.5rem; /* increased gap between sections */
+  margin-bottom: 1.5rem; /* add bottom spacing as well */
   padding: 1.5rem;
   border-top: 1px solid rgba(148, 163, 184, 0.2);
   border-left: 3px solid rgba(34, 211, 238, 0.3);
