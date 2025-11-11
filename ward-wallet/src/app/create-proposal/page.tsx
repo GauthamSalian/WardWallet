@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useAccount } from "wagmi";
 import Link from "next/link";
 import { useWriteContract } from "wagmi";
-import { MyContractABI } from "@/abis/myContract";
+import { MyContractABI } from "@/abis/myContractv2";
 import styles from "./CreateProposal.module.css";
 import { Navbar } from "@/components/Navbar";
 import { keccak256, toHex } from "viem";
@@ -13,7 +13,7 @@ export default function CreateProposalPage() {
   const [title, setTitle] = useState("");
   const [rawId, setRawId] = useState(""); // user input
   const [description, setDescription] = useState("");
-  const [budget, setBudget] = useState("");
+  // budget moved to approval step; remove from create-proposal flow
   const [file, setFile] = useState<File | null>(null);
   const [latitude, setLatitude] = useState<string | null>(null);
   const [longitude, setLongitude] = useState<string | null>(null);
@@ -52,7 +52,6 @@ export default function CreateProposalPage() {
     formData.append("file", file);
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("budget", budget);
     formData.append("id", rawId);
 
     try {
@@ -97,20 +96,19 @@ export default function CreateProposalPage() {
         title,
         proposer_address: address ?? null,
         status: "open",
-        budget: Number(budget) || 0,
+        // budget is set at approval time now
         ipfs_hash: ipfsHash,
       });
 
       writeContract({
         address: process.env
-          .NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
+          .NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY_2 as `0x${string}`,
         abi: MyContractABI,
         functionName: "createProposal",
         args: [
           proposalId as `0x${string}`,
           title,
           ipfsHash,
-          BigInt(budget),
           Number(Math.floor(Date.now() / 1000)),
         ],
         value: BigInt(10000),
@@ -130,6 +128,8 @@ export default function CreateProposalPage() {
 
     (async () => {
       try {
+        console.log("Attempting to persist proposal with:", pendingProposal);
+        console.log("Connected address:", address);
         const res = await fetch("/api/proposals", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -142,8 +142,10 @@ export default function CreateProposalPage() {
             res.status,
             body
           );
+          alert(`Failed to save proposal: ${body.error || "Unknown error"}`);
         } else {
           console.log("Proposal persisted off-chain");
+          alert("Proposal created successfully!");
           // clear pending proposal after successful persist
           setPendingProposal(null);
         }
@@ -151,7 +153,7 @@ export default function CreateProposalPage() {
         console.error("Error persisting proposal:", err);
       }
     })();
-  }, [isSuccess, pendingProposal]);
+  }, [isSuccess, pendingProposal, address]);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files?.[0]) setFile(e.target.files[0]);
@@ -213,20 +215,7 @@ export default function CreateProposalPage() {
             />
           </div>
 
-          <div className={styles.inputGroup}>
-            <label htmlFor="Budget" className={styles.label}>
-              Budget (in wei)
-            </label>
-            <input
-              type="number"
-              id="Budget"
-              required
-              value={budget}
-              onChange={(e) => setBudget(e.target.value)}
-              className={styles.input}
-              placeholder="e.g., 1000000000000000000"
-            />
-          </div>
+          {/* Budget removed from create proposal; approval assigns budget */}
 
           <div className={styles.inputGroup}>
             <label htmlFor="File" className={styles.label}>

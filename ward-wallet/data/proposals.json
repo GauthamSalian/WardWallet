@@ -31,5 +31,14 @@
     "budget": 15000000000,
     "ipfs_hash": "bafybeiggjndc43shxejidxlxovq7sfdmd2q4n5mlpvqygxivbho5lh3u7q",
     "created_at": "2025-11-10T03:13:51.017Z"
+  },
+  {
+    "id": "0x0e6232a68d65cf83e13742e6830cb1f2c69ea199850fb309ff25d3d7b15d072a",
+    "title": "Solar-Powered Street Lighting for Rural Udupi",
+    "proposer_address": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
+    "status": "open",
+    "budget": 0,
+    "ipfs_hash": "bafybeiew7lgz73oyuktamaenu2rcxjrcijk3pspzzoa6i77mcuhcuvv4rm",
+    "created_at": "2025-11-11T16:25:22.124Z"
   }
 ]

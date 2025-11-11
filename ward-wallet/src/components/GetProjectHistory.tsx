@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
-import { MyContractABI } from "@/abis/myContract";
+import { MyContractABI } from "@/abis/myContractv2";
 import { publicClient } from "@/utils/publicClient";
 
 import { ReportProposal } from "@/components/ReportProposal";
@@ -18,6 +18,7 @@ import { BidForm } from "./BidForm";
 import { BidCard } from "./BidCard";
 import styles from "@/app/history/[id]/GetHistory.module.css";
 import { useAccount } from "wagmi";
+import { useRoles } from "@/utils/roles";
 import { Bid } from "@/types/bid";
 
 interface ProjectHistoryData {
@@ -70,6 +71,7 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
   const [bidsLoading, setBidsLoading] = React.useState(false);
   const [bidsError, setBidsError] = React.useState<string | null>(null);
   const { address } = useAccount();
+  const roles = useRoles();
 
   // fetch bids for this proposal
   React.useEffect(() => {
@@ -113,13 +115,13 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
     publicClient
       .readContract({
         address: process.env
-          .NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
+          .NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY_2 as `0x${string}`,
         abi: MyContractABI,
         functionName: "getProjectHistory",
         args: [proposalId],
       })
       .then((result) => {
-        setData(result);
+        setData(result as ProjectHistoryData);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -338,36 +340,49 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
                 proposalId={proposalId}
                 buttonClassName={styles.voteBtn}
               />
-              {/* Show Approve button only when approval is not done */}
+
+              {/* Approve: only show when not yet approved AND caller is an official */}
               {isZeroAddress(data?.approval?.approvalId) && (
                 <>
-                  <ActionButton
-                    onClick={() => setShowApprovalForm(true)}
-                    variant="approve"
-                  >
-                    Approve Proposal
-                  </ActionButton>
-                  {showApprovalForm && (
-                    <div
-                      className={styles.modalOverlay}
-                      onClick={() => setShowApprovalForm(false)}
-                    >
-                      <div
-                        className={styles.modalContent}
-                        onClick={(e) => e.stopPropagation()}
+                  {/** roles hook determines whether current account is an official/contractor */}
+                  {/** show approve button only to officials */}
+                  {/** useRoles is imported above; safe to call here */}
+                  {roles.isOfficial && (
+                    <>
+                      <ActionButton
+                        onClick={() => setShowApprovalForm(true)}
+                        variant="approve"
                       >
-                        <ApprovalProposal
-                          defaultProposalId={proposalId}
-                          onClose={() => setShowApprovalForm(false)}
-                        />
-                      </div>
-                    </div>
+                        Approve Proposal
+                      </ActionButton>
+                      {showApprovalForm && (
+                        <div
+                          className={styles.modalOverlay}
+                          onClick={() => setShowApprovalForm(false)}
+                        >
+                          <div
+                            className={styles.modalContent}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <ApprovalProposal
+                              defaultProposalId={proposalId}
+                              onClose={() => setShowApprovalForm(false)}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </>
               )}
-              {/* Show Complete button only when approval is done but completion is not */}
+
+              {/* Complete: show to the contractor for this approval when approval exists and completion not set */}
               {!isZeroAddress(data?.approval?.approvalId) &&
-                isZeroAddress(data?.completion?.completionId) && (
+                isZeroAddress(data?.completion?.completionId) &&
+                address &&
+                data?.approval?.contractor &&
+                address.toLowerCase() ===
+                  data.approval.contractor.toLowerCase() && (
                   <>
                     <ActionButton
                       onClick={() => setShowCompletionForm(true)}
@@ -392,7 +407,8 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
                     )}
                   </>
                 )}
-              {/* Show Release Payment button only when completion is done */}
+
+              {/* Release Payment: shown when completion exists and there is an approval */}
               {!isZeroAddress(data?.completion?.completionId) &&
                 data?.approval?.approvalId && (
                   <ReleasePayment approvalId={data.approval.approvalId} />
@@ -417,19 +433,24 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
           {/* Bids Section */}
           <div className={styles.infoSection}>
             <h2 className={styles.subTitle}>Bids</h2>
-            <BidForm
-              proposalId={proposalId}
-              bidderAddress={address || ""}
-              onBidSubmitted={() => {
-                // refetch bids after a successful submission
-                setBidsLoading(true);
-                fetch(`/api/bids/${proposalId}`)
-                  .then((r) => (r.ok ? r.json() : Promise.reject(r.statusText)))
-                  .then((items) => setBids(items || []))
-                  .catch((e) => setBidsError(String(e)))
-                  .finally(() => setBidsLoading(false));
-              }}
-            />
+            {isZeroAddress(data?.approval?.approvalId) &&
+              roles.isContractor && (
+                <BidForm
+                  proposalId={proposalId}
+                  bidderAddress={address || ""}
+                  onBidSubmitted={() => {
+                    // refetch bids after a successful submission
+                    setBidsLoading(true);
+                    fetch(`/api/bids/${proposalId}`)
+                      .then((r) =>
+                        r.ok ? r.json() : Promise.reject(r.statusText)
+                      )
+                      .then((items) => setBids(items || []))
+                      .catch((e) => setBidsError(String(e)))
+                      .finally(() => setBidsLoading(false));
+                  }}
+                />
+              )}
 
             {bidsLoading && <div>Loading bids…</div>}
             {bidsError && <div style={{ color: "#EF4444" }}>{bidsError}</div>}

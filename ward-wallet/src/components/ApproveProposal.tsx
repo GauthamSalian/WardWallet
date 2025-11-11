@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useWriteContract } from "wagmi";
-import { MyContractABI } from "@/abis/myContract";
+import { MyContractABI } from "@/abis/myContractv2";
 import styles from "./ApprovalProposal.module.css";
 
 type ApprovalProposalProps = {
   defaultProposalId?: string;
   onClose?: () => void;
+  // optionally let parent hide/show the approve UI based on role
+  isOfficial?: boolean;
 };
 
 export function ApprovalProposal({
@@ -16,6 +18,7 @@ export function ApprovalProposal({
   const [approvalId, setApprovalId] = useState("");
   const [proposalId, setProposalId] = useState(defaultProposalId ?? "");
   const [contractor, setContractor] = useState("");
+  const [budget, setBudget] = useState("");
 
   const { writeContract, isPending, isError, isSuccess } = useWriteContract();
 
@@ -33,15 +36,36 @@ export function ApprovalProposal({
   }
 
   function handleWriteContract() {
+    // convert ETH string to wei bigint for the contract
+    let budgetWei: bigint | undefined = undefined;
+    try {
+      if (budget && budget.trim() !== "") {
+        // parse budget (ETH decimal string) to uint256 as bigint
+        const parts = budget.trim().split(".");
+        const whole = parts[0] || "0";
+        const frac = parts[1] || "";
+        const fracPadded = (frac + "0".repeat(18)).slice(0, 18);
+        const weiMultiplier = BigInt(10) ** BigInt(18);
+        budgetWei = BigInt(whole) * weiMultiplier + BigInt(fracPadded);
+      }
+    } catch (err) {
+      console.warn("Failed to parse budget to wei, sending 0:", err);
+      budgetWei = BigInt(0);
+    }
+
     writeContract({
-      address: process.env.NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
+      address: process.env
+        .NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY_2 as `0x${string}`,
       abi: MyContractABI,
       functionName: "approvalProposal",
+      // ABI: (bytes32 _id, bytes32 _proposalId, address _contractor, uint48 _timestamp, uint256 _budget)
       args: [
         approvalId as `0x${string}`,
         proposalId as `0x${string}`,
         contractor as `0x${string}`,
         Number(Math.floor(Date.now() / 1000)),
+        // budgetWei may be undefined -> pass 0 if not provided
+        (budgetWei ?? BigInt(0)) as unknown as bigint,
       ],
     });
   }
@@ -108,6 +132,19 @@ export function ApprovalProposal({
                   required
                   value={contractor}
                   onChange={(e) => setContractor(e.target.value)}
+                  className={styles.input}
+                />
+                <br />
+                <label htmlFor="Budget" className={styles.label}>
+                  Budget (ETH):
+                </label>
+                <input
+                  type="text"
+                  name="Budget"
+                  id="Budget"
+                  placeholder="0.5"
+                  value={budget}
+                  onChange={(e) => setBudget(e.target.value)}
                   className={styles.input}
                 />
                 <br />

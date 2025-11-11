@@ -1,7 +1,7 @@
 "use client";
 
 import { useWriteContract, useAccount } from "wagmi";
-import { MyContractABI } from "@/abis/myContract";
+import { MyContractABI } from "@/abis/myContractv2";
 import styles from "./ApprovalProposal.module.css";
 
 interface ReportProposalProps {
@@ -25,7 +25,7 @@ export function ReportProposal({
     try {
       await writeContract({
         address: process.env
-          .NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY as `0x${string}`,
+          .NEXT_PUBLIC_WARDWALLET_CONTRACT_KEY_2 as `0x${string}`,
         abi: MyContractABI,
         functionName: "report",
         args: [proposalId],

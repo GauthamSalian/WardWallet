@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { ddb } from "@/lib/dynamoClient";
 import { QueryCommand } from "@aws-sdk/lib-dynamodb";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { proposalId: string } }
-) {
+export async function GET(request: NextRequest, context: any) {
+  const { params } = context as { params: { proposalId: string } };
+
   const proposalId = params.proposalId;
 
   if (!proposalId) {

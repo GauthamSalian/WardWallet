@@ -46,7 +46,13 @@ export async function POST(request: Request) {
     const { id, title, proposer_address, status, budget, ipfs_hash } = body;
     if (!id || typeof id !== 'string') return NextResponse.json({ error: 'Missing id' }, { status: 400 });
     if (!title || typeof title !== 'string') return NextResponse.json({ error: 'Missing title' }, { status: 400 });
-    if (!isValidAddress(proposer_address)) return NextResponse.json({ error: 'Invalid proposer_address' }, { status: 400 });
+    
+    console.log('POST /api/proposals received:', { id, title, proposer_address, status, budget, ipfs_hash });
+    
+    if (!isValidAddress(proposer_address)) {
+      console.warn('Invalid proposer_address:', proposer_address);
+      return NextResponse.json({ error: 'Invalid proposer_address: must be valid Ethereum address' }, { status: 400 });
+    }
 
     const all = await readDB();
     // prevent duplicate
@@ -65,8 +71,10 @@ export async function POST(request: Request) {
     };
     all.push(row);
     await writeDB(all);
+    console.log('Proposal saved:', row);
     return NextResponse.json(row, { status: 201 });
   } catch (err: any) {
+    console.error('Error in POST /api/proposals:', err);
     return NextResponse.json({ error: err.message || String(err) }, { status: 500 });
   }
 }

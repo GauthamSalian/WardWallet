@@ -1,4 +1,4 @@
-import ProvidersClient from "./components/ProvidersClient";
+import { ProvidersClient } from "./components/ProvidersClient";
 import { WalletStatus } from "./components/WalletStatus";
 
 export default function App() {
