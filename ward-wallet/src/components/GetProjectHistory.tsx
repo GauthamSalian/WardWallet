@@ -12,7 +12,10 @@ import { ApprovalProposal } from "@/components/ApproveProposal";
 import { CompleteProposal } from "@/components/CompletedWork";
 import { ReleasePayment } from "@/components/ReleasePayment";
 import { ActionButton } from "@/components/ActionButton";
+import { CommentList } from "@/components/CommentList";
+import { CommentForm } from "@/components/CommentForm";
 import styles from "@/app/history/[id]/GetHistory.module.css";
+import { useAccount } from "wagmi";
 
 interface ProjectHistoryData {
   proposal: {
@@ -59,6 +62,8 @@ const isZeroAddress = (addr?: string) =>
 export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
   const [showApprovalForm, setShowApprovalForm] = React.useState(false);
   const [showCompletionForm, setShowCompletionForm] = React.useState(false);
+  const [refreshComments, setRefreshComments] = React.useState(false);
+  const { address } = useAccount();
   const isValidBytes32 = /^0x[a-fA-F0-9]{64}$/.test(proposalId);
   const [data, setData] = React.useState<ProjectHistoryData | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -357,6 +362,17 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
                 )}
             </div>
           </div>
+
+          {/* Comments Section */}
+          <CommentList proposalId={proposalId} key={refreshComments ? 'refresh' : 'normal'} />
+          
+          {address && (
+            <CommentForm
+              proposalId={proposalId}
+              author={address}
+              onCommentSubmitted={() => setRefreshComments(!refreshComments)}
+            />
+          )}
         </div>
       )}
     </div>
