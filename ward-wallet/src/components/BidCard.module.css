@@ -1,0 +1,32 @@
+.bidCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(148,163,184,0.06);
+  margin-bottom: 0.75rem;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.company {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.meta {
+  color: #94A3B8;
+  font-size: 0.85rem;
+}
+
+.amount {
+  font-weight: 800;
+  color: #22d3ee;
+  font-family: 'JetBrains Mono', monospace;
+}

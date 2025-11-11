@@ -14,8 +14,11 @@ import { ReleasePayment } from "@/components/ReleasePayment";
 import { ActionButton } from "@/components/ActionButton";
 import { CommentList } from "@/components/CommentList";
 import { CommentForm } from "@/components/CommentForm";
+import { BidForm } from "./BidForm";
+import { BidCard } from "./BidCard";
 import styles from "@/app/history/[id]/GetHistory.module.css";
 import { useAccount } from "wagmi";
+import { Bid } from "@/types/bid";
 
 interface ProjectHistoryData {
   proposal: {
@@ -63,7 +66,41 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
   const [showApprovalForm, setShowApprovalForm] = React.useState(false);
   const [showCompletionForm, setShowCompletionForm] = React.useState(false);
   const [refreshComments, setRefreshComments] = React.useState(false);
+  const [bids, setBids] = React.useState<Bid[]>([]);
+  const [bidsLoading, setBidsLoading] = React.useState(false);
+  const [bidsError, setBidsError] = React.useState<string | null>(null);
   const { address } = useAccount();
+
+  // fetch bids for this proposal
+  React.useEffect(() => {
+    if (!proposalId) return;
+    let mounted = true;
+    setBidsLoading(true);
+    setBidsError(null);
+
+    fetch(`/api/bids/${proposalId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Failed to fetch bids: ${res.status}`);
+        return res.json();
+      })
+      .then((items) => {
+        if (!mounted) return;
+        setBids(items || []);
+      })
+      .catch((err) => {
+        if (!mounted) return;
+        console.error(err);
+        setBidsError(err.message || String(err));
+      })
+      .finally(() => {
+        if (!mounted) return;
+        setBidsLoading(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, [proposalId]);
   const isValidBytes32 = /^0x[a-fA-F0-9]{64}$/.test(proposalId);
   const [data, setData] = React.useState<ProjectHistoryData | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -376,6 +413,39 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
               onCommentSubmitted={() => setRefreshComments(!refreshComments)}
             />
           )}
+
+          {/* Bids Section */}
+          <div className={styles.infoSection}>
+            <h2 className={styles.subTitle}>Bids</h2>
+            <BidForm
+              proposalId={proposalId}
+              bidderAddress={address || ""}
+              onBidSubmitted={() => {
+                // refetch bids after a successful submission
+                setBidsLoading(true);
+                fetch(`/api/bids/${proposalId}`)
+                  .then((r) => (r.ok ? r.json() : Promise.reject(r.statusText)))
+                  .then((items) => setBids(items || []))
+                  .catch((e) => setBidsError(String(e)))
+                  .finally(() => setBidsLoading(false));
+              }}
+            />
+
+            {bidsLoading && <div>Loading bids…</div>}
+            {bidsError && <div style={{ color: "#EF4444" }}>{bidsError}</div>}
+
+            {!bidsLoading && !bidsError && (
+              <div>
+                {bids && bids.length > 0 ? (
+                  bids.map((b) => (
+                    <BidCard bid={b} key={b.bidId || b.timestamp} />
+                  ))
+                ) : (
+                  <div style={{ color: "#94A3B8" }}>No bids yet</div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
