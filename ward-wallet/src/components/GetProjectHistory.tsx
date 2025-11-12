@@ -11,6 +11,7 @@ import { IpfsViewer } from "@/components/IpfsViewer";
 import { ApprovalProposal } from "@/components/ApproveProposal";
 import { CompleteProposal } from "@/components/CompletedWork";
 import { ReleasePayment } from "@/components/ReleasePayment";
+import { RejectProposal } from "@/components/RejectProposal";
 import { ActionButton } from "@/components/ActionButton";
 import { CommentList } from "@/components/CommentList";
 import { CommentForm } from "@/components/CommentForm";
@@ -131,7 +132,7 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
   }, [proposalId, isValidBytes32]);
 
   return (
-    <div className={styles.container}>
+    <div>
       <Link href="/" className={styles.backButton}>
         <FiArrowLeft /> Back to Dashboard
       </Link>
@@ -340,6 +341,15 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
                 proposalId={proposalId}
                 buttonClassName={styles.voteBtn}
               />
+
+              {/* Reject: only show when not yet approved AND caller is a contractor */}
+              {isZeroAddress(data?.approval?.approvalId) &&
+                roles.isContractor && (
+                  <RejectProposal
+                    proposalId={proposalId}
+                    buttonClassName={styles.rejectBtn}
+                  />
+                )}
 
               {/* Approve: only show when not yet approved AND caller is an official */}
               {isZeroAddress(data?.approval?.approvalId) && (

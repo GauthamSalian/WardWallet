@@ -4,8 +4,9 @@ import styles from "./ActionButton.module.css";
 type ActionButtonProps = {
   onClick: () => void;
   children: ReactNode;
-  variant?: "approve" | "complete";
+  variant?: "approve" | "complete" | "reject";
   className?: string;
+  disabled?: boolean;
 };
 
 export function ActionButton({
@@ -13,10 +14,12 @@ export function ActionButton({
   children,
   variant = "approve",
   className,
+  disabled = false,
 }: ActionButtonProps) {
   return (
     <button
       onClick={onClick}
+      disabled={disabled}
       className={`${styles.actionButton} ${styles[variant]} ${className || ""}`}
     >
       {children}

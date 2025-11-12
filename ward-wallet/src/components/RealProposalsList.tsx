@@ -23,7 +23,7 @@ export function RealProposalsList() {
       try {
         const res = await fetch("/api/proposals/all");
         const data = await res.json();
-        setProposals(data.proposals?.slice(0, 3) || []); // Show top 3
+        setProposals(data.proposals || []); // Show all proposals
       } catch (err) {
         console.error("Error fetching proposals:", err);
       } finally {

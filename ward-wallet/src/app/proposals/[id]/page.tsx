@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { GetProjectHistory } from "@/components/GetProjectHistory";
-import Link from "next/link";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -63,31 +62,6 @@ export default function ProposalDetailPage({ params }: PageProps) {
         }}
       >
         <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-          {/* Back link */}
-          <Link
-            href="/"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              marginBottom: "24px",
-              color: "#16c784",
-              textDecoration: "none",
-              fontSize: "14px",
-              fontWeight: 500,
-              cursor: "pointer",
-              transition: "all 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.gap = "12px";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.gap = "8px";
-            }}
-          >
-            ← Back to Proposals
-          </Link>
-
           {/* Project history component - this handles all the data fetching and display */}
           <GetProjectHistory proposalId={proposalId as `0x${string}`} />
         </div>
