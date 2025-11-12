@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Navbar.module.css";
 
 export function ConnectWallet() {
@@ -9,10 +9,25 @@ export function ConnectWallet() {
   const { connectors, connect } = useConnect();
   const { disconnect } = useDisconnect();
   const [showMenu, setShowMenu] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Ensure component only renders after hydration to prevent mismatch
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const shortAddress = address
     ? `${address.slice(0, 6)}...${address.slice(-4)}`
     : "";
+
+  // Render placeholder during hydration
+  if (!isMounted) {
+    return (
+      <button className={styles.connectButton} disabled>
+        Loading...
+      </button>
+    );
+  }
 
   if (isConnected && address) {
     return (

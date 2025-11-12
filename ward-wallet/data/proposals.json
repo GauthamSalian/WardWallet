@@ -40,5 +40,14 @@
     "budget": 0,
     "ipfs_hash": "bafybeiew7lgz73oyuktamaenu2rcxjrcijk3pspzzoa6i77mcuhcuvv4rm",
     "created_at": "2025-11-11T16:25:22.124Z"
+  },
+  {
+    "id": "0x4659db3b248cae1bb6856ee63308af6c9c15239e3bb76f425fbacdd84bb15330",
+    "title": "Onboard \"Himalayan Herbs\" as a Verified Supplier",
+    "proposer_address": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
+    "status": "open",
+    "budget": 0,
+    "ipfs_hash": "bafybeiduyyflwywkyd3hwq5o4ulizojmkk5h7qlw5waivv52s4idipouvu",
+    "created_at": "2025-11-12T16:15:14.684Z"
   }
 ]
