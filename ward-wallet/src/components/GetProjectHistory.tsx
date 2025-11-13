@@ -386,6 +386,12 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
                 </>
               )}
 
+              {/* Release Payment: shown when approval exists (can release 3x before completion + 1x after) */}
+              {!isZeroAddress(data?.approval?.approvalId) &&
+                data?.approval?.approvalId && (
+                  <ReleasePayment approvalId={data.approval.approvalId} />
+                )}
+
               {/* Complete: show to the contractor for this approval when approval exists and completion not set */}
               {!isZeroAddress(data?.approval?.approvalId) &&
                 isZeroAddress(data?.completion?.completionId) &&
@@ -410,18 +416,13 @@ export function GetProjectHistory({ proposalId }: GetProjectHistoryProps) {
                           onClick={(e) => e.stopPropagation()}
                         >
                           <CompleteProposal
+                            approvalId={data.approval.approvalId}
                             onClose={() => setShowCompletionForm(false)}
                           />
                         </div>
                       </div>
                     )}
                   </>
-                )}
-
-              {/* Release Payment: shown when completion exists and there is an approval */}
-              {!isZeroAddress(data?.completion?.completionId) &&
-                data?.approval?.approvalId && (
-                  <ReleasePayment approvalId={data.approval.approvalId} />
                 )}
             </div>
           </div>

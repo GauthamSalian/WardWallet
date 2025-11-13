@@ -4,16 +4,30 @@ import { MyContractABI } from "@/abis/myContractv2";
 import styles from "./ApprovalProposal.module.css";
 
 type CompleteProposalProps = {
+  approvalId: `0x${string}`;
   onClose?: () => void;
 };
 
-export function CompleteProposal({ onClose }: CompleteProposalProps) {
-  const [completionId, setCompletionId] = useState("");
-  const [approvalId, setApprovalId] = useState("");
+export function CompleteProposal({
+  approvalId,
+  onClose,
+}: CompleteProposalProps) {
+  const [completionId, setCompletionId] = useState<`0x${string}`>(() => {
+    const id = `0x${Array.from(crypto.getRandomValues(new Uint8Array(32)))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("")}` as `0x${string}`;
+    return id;
+  });
   const [ipfsHash, setIpfsHash] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   const { writeContract, isPending, isError, isSuccess } = useWriteContract();
+
+  // Generate a unique completion ID on mount
+  useEffect(() => {
+    // ID is already generated in state initializer
+  }, []);
 
   async function handleIpfsUpload(): Promise<string> {
     if (!file) throw new Error("No file selected.");
@@ -37,10 +51,20 @@ export function CompleteProposal({ onClose }: CompleteProposalProps) {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     try {
+      setUploading(true);
       let hashToUse = ipfsHash;
       if (file) {
         hashToUse = await handleIpfsUpload();
         setIpfsHash(hashToUse);
+      }
+
+      // Ensure we have required fields
+      if (!completionId || !approvalId || !hashToUse) {
+        alert(
+          "Missing required fields: Completion ID, Approval ID, or IPFS Hash"
+        );
+        setUploading(false);
+        return;
       }
 
       writeContract({
@@ -49,18 +73,16 @@ export function CompleteProposal({ onClose }: CompleteProposalProps) {
         abi: MyContractABI,
         functionName: "markAsComplete",
         args: [
-          completionId as `0x${string}`,
-          approvalId as `0x${string}`,
+          completionId,
+          approvalId,
           hashToUse,
-          Number(Math.floor(Date.now() / 1000)),
+          Math.floor(Date.now() / 1000),
         ],
       });
     } catch (err) {
-      console.error("IPFS upload failed:", err);
-      alert(
-        "Failed to upload file to IPFS: " +
-          (err instanceof Error ? err.message : String(err))
-      );
+      console.error("Error in handleSubmit:", err);
+      alert("Failed: " + (err instanceof Error ? err.message : String(err)));
+      setUploading(false);
     }
   }
 
@@ -69,8 +91,9 @@ export function CompleteProposal({ onClose }: CompleteProposalProps) {
   }
 
   useEffect(() => {
-    if (isSuccess && onClose) {
-      onClose();
+    if (isSuccess) {
+      setUploading(false);
+      if (onClose) onClose();
     }
   }, [isSuccess, onClose]);
 
@@ -84,9 +107,8 @@ export function CompleteProposal({ onClose }: CompleteProposalProps) {
           type="text"
           name="CompletionId"
           id="CompletionId"
-          required
+          disabled
           value={completionId}
-          onChange={(e) => setCompletionId(e.target.value)}
           className={styles.input}
         />
         <br />
@@ -97,9 +119,8 @@ export function CompleteProposal({ onClose }: CompleteProposalProps) {
           type="text"
           name="ApprovalId"
           id="ApprovalId"
-          required
+          disabled
           value={approvalId}
-          onChange={(e) => setApprovalId(e.target.value)}
           className={styles.input}
         />
         <br />
@@ -123,15 +144,26 @@ export function CompleteProposal({ onClose }: CompleteProposalProps) {
           value={ipfsHash}
           onChange={(e) => setIpfsHash(e.target.value)}
           className={styles.input}
+          placeholder="Enter IPFS hash (QmXxxx...)"
         />
         <br />
-        <button type="submit" disabled={isPending} className={styles.button}>
-          {isPending ? "Submitting..." : "Submit Completion"}
+        <button
+          type="submit"
+          disabled={isPending || uploading}
+          className={styles.button}
+        >
+          {uploading
+            ? "Uploading..."
+            : isPending
+              ? "Submitting..."
+              : "Submit Completion"}
         </button>
 
         <div className={styles.feedbackContainer}>
           {isError && (
-            <p className={styles.errorMessage}>Error completing proposal.</p>
+            <p className={styles.errorMessage}>
+              Error completing proposal. Check console for details.
+            </p>
           )}
           {isSuccess && (
             <p className={styles.successMessage}>
