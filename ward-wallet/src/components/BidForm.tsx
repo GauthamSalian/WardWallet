@@ -92,7 +92,7 @@ export function BidForm({
 
         <div className={styles.formGroup}>
           <label htmlFor="bidAmount" className={styles.label}>
-            Bid Amount (ETH)
+            Bid Amount (INR)
           </label>
           <input
             type="number"
