@@ -52,10 +52,6 @@ WardWallet is built with an enterprise-grade, secure, and scalable architecture:
 * **Authentication:** **JWT** implements secure, role-based access control (RBAC) to distinguish between citizens, contractors, and officials.
 * **Blockchain Infrastructure:** **Docker + Hyperledger Besu / Quorum** is used to deploy a private blockchain infrastructure optimized for municipal governance requirements.
 
-## 🏁 Getting Started
-
-*(This section is a placeholder. You should fill it with instructions on how to set up and run your project locally.)*
-
 ### Prerequisites
 
 * Node.js (v18.x or later)
