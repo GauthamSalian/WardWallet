@@ -79,7 +79,6 @@ WardWallet is built with an enterprise-grade, secure, and scalable architecture:
     npm run dev
     ```
 
-4.  *(Add steps for deploying smart contracts, setting up the private blockchain, etc.)*
 
 ## 📄 License
 
