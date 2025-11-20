@@ -16,7 +16,7 @@ export function BidCard({ bid }: BidCardProps) {
           {new Date(Number(bid.timestamp)).toLocaleString()}
         </div>
       </div>
-      <div className={styles.amount}>${bid.bidAmount}</div>
+      <div className={styles.amount}>₹{bid.bidAmount}</div>
     </div>
   );
 }
