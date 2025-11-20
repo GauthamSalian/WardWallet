@@ -46,7 +46,7 @@ export function ApprovalProposal({
         const frac = parts[1] || "";
         const fracPadded = (frac + "0".repeat(18)).slice(0, 18);
         const weiMultiplier = BigInt(10) ** BigInt(18);
-        budgetWei = BigInt(whole) * weiMultiplier + BigInt(fracPadded);
+        budgetWei = BigInt(whole) + BigInt(fracPadded);
       }
     } catch (err) {
       console.warn("Failed to parse budget to wei, sending 0:", err);

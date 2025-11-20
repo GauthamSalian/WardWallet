@@ -49,5 +49,32 @@
     "budget": 0,
     "ipfs_hash": "bafybeiduyyflwywkyd3hwq5o4ulizojmkk5h7qlw5waivv52s4idipouvu",
     "created_at": "2025-11-12T16:15:14.684Z"
+  },
+  {
+    "id": "0x4f6eeeca2c2f08ad93acd3567d4513fdb2d5811badc88f0b16e349c652dcf257",
+    "title": "GreenConnect: Cultivating Community Through Technology",
+    "proposer_address": "0xed9d02e382b34818e88B88a309c7fe71E65f419d",
+    "status": "open",
+    "budget": 0,
+    "ipfs_hash": "bafkreidpwgtw2brijldt4t72sadvk2nomh24tvtbsyzciycwxqmbldp2qy",
+    "created_at": "2025-11-13T15:52:42.722Z"
+  },
+  {
+    "id": "0xcac4298d34b1aeacd6174c118a10ed890dada1e6da5050756478f91187a33d05",
+    "title": "Project Nirmal: A Smart Waste & Water Quality Initiative for Manipal Lake",
+    "proposer_address": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
+    "status": "open",
+    "budget": 0,
+    "ipfs_hash": "bafkreidpwgtw2brijldt4t72sadvk2nomh24tvtbsyzciycwxqmbldp2qy",
+    "created_at": "2025-11-16T02:39:02.538Z"
+  },
+  {
+    "id": "0x38382ebd6e57051e4a014c6de79def4fa8973941ffd21d67db7c9051514b0c43",
+    "title": "Fix Potholes on Kalsanka-Manipal Road After Monsoon",
+    "proposer_address": "0xed9d02e382b34818e88B88a309c7fe71E65f419d",
+    "status": "open",
+    "budget": 0,
+    "ipfs_hash": "bafkreidpwgtw2brijldt4t72sadvk2nomh24tvtbsyzciycwxqmbldp2qy",
+    "created_at": "2025-11-16T14:18:37.932Z"
   }
 ]

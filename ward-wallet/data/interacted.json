@@ -49,6 +49,23 @@
       "proposalId": "0x0e6232a68d65cf83e13742e6830cb1f2c69ea199850fb309ff25d3d7b15d072a",
       "action": "vote",
       "timestamp": 1762962523642
+    },
+    {
+      "proposalId": "0xcac4298d34b1aeacd6174c118a10ed890dada1e6da5050756478f91187a33d05",
+      "action": "vote",
+      "timestamp": 1763261262818
+    }
+  ],
+  "0xed9d02e382b34818e88B88a309c7fe71E65f419d": [
+    {
+      "proposalId": "0x4f6eeeca2c2f08ad93acd3567d4513fdb2d5811badc88f0b16e349c652dcf257",
+      "action": "vote",
+      "timestamp": 1763049195612
+    },
+    {
+      "proposalId": "0xcac4298d34b1aeacd6174c118a10ed890dada1e6da5050756478f91187a33d05",
+      "action": "vote",
+      "timestamp": 1763302793825
     }
   ]
 }
