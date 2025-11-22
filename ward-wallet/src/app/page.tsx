@@ -9,6 +9,8 @@ import { useRouter } from "next/navigation";
 import { keccak256, toHex } from "viem";
 import LiveTicker from "@/components/LiveTicker";
 import styles from "./Dashboard.module.css";
+import "leaflet/dist/leaflet.css";
+import InteractiveMap from "@/components/InteractiveMap";
 
 interface Proposal {
   id: string;
@@ -162,6 +164,8 @@ export default function DashboardPage() {
             </div>
           )}
         </form>
+
+        <InteractiveMap />
 
         <div className={styles.buttonGrid}>
           <Link href="/create-proposal" className={styles.actionButton}>
