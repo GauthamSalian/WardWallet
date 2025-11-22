@@ -40,7 +40,7 @@
     "title": "Solar-Powered Street Lighting for Rural Udupi",
     "proposer_address": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
     "status": "open",
-    "budget": 0,
+    "budget": 100000000000000000,
     "ipfs_hash": "bafybeiew7lgz73oyuktamaenu2rcxjrcijk3pspzzoa6i77mcuhcuvv4rm",
     "created_at": "2025-11-11T16:25:22.124Z",
     "position": [13.3500, 74.7300]
@@ -50,7 +50,7 @@
     "title": "Onboard \"Himalayan Herbs\" as a Verified Supplier",
     "proposer_address": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
     "status": "open",
-    "budget": 0,
+    "budget": 500000000000000,
     "ipfs_hash": "bafybeiduyyflwywkyd3hwq5o4ulizojmkk5h7qlw5waivv52s4idipouvu",
     "created_at": "2025-11-12T16:15:14.684Z",
     "position": [13.3380, 74.7500]
@@ -60,7 +60,7 @@
     "title": "GreenConnect: Cultivating Community Through Technology",
     "proposer_address": "0xed9d02e382b34818e88B88a309c7fe71E65f419d",
     "status": "open",
-    "budget": 0,
+    "budget": 1000000000000000000,
     "ipfs_hash": "bafkreidpwgtw2brijldt4t72sadvk2nomh24tvtbsyzciycwxqmbldp2qy",
     "created_at": "2025-11-13T15:52:42.722Z",
     "position": [13.3200, 74.7550]
@@ -70,7 +70,7 @@
     "title": "Project Nirmal: A Smart Waste & Water Quality Initiative for Manipal Lake",
     "proposer_address": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
     "status": "open",
-    "budget": 0,
+    "budget": 600000000000000000,
     "ipfs_hash": "bafkreidpwgtw2brijldt4t72sadvk2nomh24tvtbsyzciycwxqmbldp2qy",
     "created_at": "2025-11-16T02:39:02.538Z",
     "position": [13.3250, 74.7405]
@@ -80,7 +80,7 @@
     "title": "Fix Potholes on Kalsanka-Manipal Road After Monsoon",
     "proposer_address": "0xed9d02e382b34818e88B88a309c7fe71E65f419d",
     "status": "open",
-    "budget": 0,
+    "budget": 5000000,
     "ipfs_hash": "bafkreidpwgtw2brijldt4t72sadvk2nomh24tvtbsyzciycwxqmbldp2qy",
     "created_at": "2025-11-16T14:18:37.932Z",
     "position": [13.3300, 74.7450]

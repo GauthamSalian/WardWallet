@@ -136,7 +136,7 @@ export function ApprovalProposal({
                 />
                 <br />
                 <label htmlFor="Budget" className={styles.label}>
-                  Budget (ETH):
+                  Budget (INR):
                 </label>
                 <input
                   type="text"
