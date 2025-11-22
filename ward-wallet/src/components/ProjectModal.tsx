@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./ProjectModal.module.css";
+import { useAuditor } from "@/context/AuditorContext";
 import { Project } from "./InteractiveMapClient";
 import { useRouter } from "next/navigation";
 
@@ -11,6 +12,12 @@ type Props = {
 
 export default function ProjectModal({ project, onClose }: Props) {
   const router = useRouter();
+  const { addXp } = useAuditor();
+
+  const handleViewHistory = () => {
+    addXp(30, "Viewed Project History");
+    router.push(`/history/${project.id}`);
+  };
 
   return (
     <div className={styles.modalBackdrop}>
@@ -41,10 +48,13 @@ export default function ProjectModal({ project, onClose }: Props) {
         </div>
 
         <button
-          className={styles.historyButton}
-          onClick={() => router.push(`/history/${project.id}`)}
+          onClick={handleViewHistory}
+          className="mt-4 w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-3 rounded-lg shadow-lg transition hover:scale-[1.02]"
         >
-          View Project History
+          📜 View Project History{" "}
+          <span className="ml-2 text-xs bg-white/20 px-2 py-0.5 rounded">
+            +30 XP
+          </span>
         </button>
       </div>
     </div>
