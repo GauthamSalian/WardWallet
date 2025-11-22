@@ -14,14 +14,13 @@ export function IpfsViewer({ ipfsHash }: IpfsViewerProps) {
   const gateway =
     process.env.NEXT_PUBLIC_PINATA_GATEWAY || "https://gateway.pinata.cloud";
 
-  function resolveIpfsUri(uri: string | undefined | null) {
-    if (!uri) return null;
+  function resolveIpfsUri(uri: string | undefined | null): string | undefined {
+    if (!uri) return undefined;
     const s = String(uri);
     if (s.startsWith("http://") || s.startsWith("https://")) return s;
     if (s.startsWith("ipfs://"))
       return s.replace("ipfs://", `${gateway}/ipfs/`);
     if (s.startsWith("/ipfs/")) return `${gateway}${s}`;
-    // assume raw hash
     return `${gateway}/ipfs/${s}`;
   }
 
@@ -44,7 +43,6 @@ export function IpfsViewer({ ipfsHash }: IpfsViewerProps) {
           const json = await res.json();
           setMetadata(json);
         } else {
-          // Not JSON, treat as raw file - set metadata to a simple object with download url
           setMetadata({ _rawUrl: url, _contentType: contentType });
         }
       })
@@ -57,6 +55,7 @@ export function IpfsViewer({ ipfsHash }: IpfsViewerProps) {
   return (
     <div style={{ marginTop: "1rem" }}>
       <h3 style={{ marginBottom: "0.5rem" }}>Documents & Metadata</h3>
+
       {loading && <p>Loading documents...</p>}
       {error && (
         <div style={{ color: "red" }}>
@@ -67,22 +66,28 @@ export function IpfsViewer({ ipfsHash }: IpfsViewerProps) {
 
       {metadata && (
         <div className={styles.section}>
-          {/* If raw file */}
           {metadata._rawUrl ? (
             <div>
               <div className={styles.label}>File:</div>
-              <a
-                className={styles.value}
-                href={metadata._rawUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Download file
-              </a>
+              {metadata._contentType?.startsWith("image/") ? (
+                <img
+                  src={metadata._rawUrl}
+                  alt="IPFS Image"
+                  style={{ maxWidth: "300px", borderRadius: "8px" }}
+                />
+              ) : (
+                <a
+                  className={styles.value}
+                  href={metadata._rawUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Download file
+                </a>
+              )}
             </div>
           ) : (
             <div>
-              {/* Display description prominently if present */}
               {metadata.description && (
                 <div style={{ marginBottom: "0.75rem" }}>
                   <div className={styles.label}>Description:</div>
@@ -90,7 +95,6 @@ export function IpfsViewer({ ipfsHash }: IpfsViewerProps) {
                 </div>
               )}
 
-              {/* Display other top-level metadata fields (excluding files/image/description) */}
               {Object.entries(metadata).map(([key, value]) => {
                 if (
                   [
@@ -114,30 +118,21 @@ export function IpfsViewer({ ipfsHash }: IpfsViewerProps) {
                 );
               })}
 
-              {/* If there's an image field */}
               {metadata.image && (
                 <div style={{ marginTop: "1rem" }}>
                   <div className={styles.label}>Image:</div>
-                  <div>
-                    <a
-                      href={
-                        resolveIpfsUri(
-                          typeof metadata.image === "string"
-                            ? metadata.image
-                            : metadata.image.uri || String(metadata.image)
-                        ) || "#"
-                      }
-                      target="_blank"
-                      rel="noreferrer"
-                      className={styles.value}
-                    >
-                      Open image
-                    </a>
-                  </div>
+                  <img
+                    src={resolveIpfsUri(
+                      typeof metadata.image === "string"
+                        ? metadata.image
+                        : metadata.image.uri || String(metadata.image)
+                    )}
+                    alt="IPFS Image"
+                    style={{ maxWidth: "300px", borderRadius: "8px" }}
+                  />
                 </div>
               )}
 
-              {/* If there are files array (Pinata's JSON may include files) */}
               {(metadata.files || metadata.documents || metadata.file) && (
                 <div style={{ marginTop: "1rem" }}>
                   <div className={styles.label}>Files:</div>
@@ -153,7 +148,6 @@ export function IpfsViewer({ ipfsHash }: IpfsViewerProps) {
                       metadata.documents ||
                       metadata.file
                     ).map((f: any, idx: number) => {
-                      // f could be an object with "uri" or a string hash
                       const rawUri =
                         typeof f === "string"
                           ? f
@@ -179,7 +173,6 @@ export function IpfsViewer({ ipfsHash }: IpfsViewerProps) {
         </div>
       )}
 
-      {/* Fallback link to open the IPFS gateway URL */}
       <div style={{ marginTop: "0.5rem" }}>
         <a
           href={`${gateway}/ipfs/${ipfsHash}`}

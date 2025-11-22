@@ -7,6 +7,7 @@ import { FiSearch } from "react-icons/fi";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { keccak256, toHex } from "viem";
+import LiveTicker from "@/components/LiveTicker";
 import styles from "./Dashboard.module.css";
 
 interface Proposal {
@@ -69,6 +70,7 @@ export default function DashboardPage() {
   return (
     <>
       <Navbar />
+      <LiveTicker />
       <div className={styles.container}>
         <form
           onSubmit={handleSearch}

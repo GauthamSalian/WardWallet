@@ -47,7 +47,8 @@
 }
 
 .section {
-  background: #fff;
+  background: #16081b;
+  opacity:40%;
   padding: 2.5rem 2.5rem 2rem 2.5rem;
   border-radius: 16px;
   margin-bottom: 2.5rem;
@@ -59,7 +60,7 @@
 
 .label {
   font-weight: 700;
-  color: #000000;
+  color: #ffffff;
   margin-right: 0.5rem;
   min-width: 120px;
   display: inline-block;

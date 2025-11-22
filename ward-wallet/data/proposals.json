@@ -76,5 +76,14 @@
     "budget": 0,
     "ipfs_hash": "bafkreidpwgtw2brijldt4t72sadvk2nomh24tvtbsyzciycwxqmbldp2qy",
     "created_at": "2025-11-16T14:18:37.932Z"
+  },
+  {
+    "id": "0xf8c50e7b61e220bcda407e07a46a21eaa169b6b269900d8d2fd4e955e856eb64",
+    "title": "Enhancing Urban Green Spaces with Smart Irrigation",
+    "proposer_address": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
+    "status": "open",
+    "budget": 0,
+    "ipfs_hash": "bafybeictixni3pshli6wop3xth2tqqznftrjv5c6ma24doneniwhub2pcu",
+    "created_at": "2025-11-20T07:09:34.045Z"
   }
 ]
