@@ -29,6 +29,26 @@ export function CompleteProposal({
     // ID is already generated in state initializer
   }, []);
 
+  useEffect(() => {
+    if (isSuccess) {
+      setUploading(false);
+
+      // Call API to mark proposal as completed
+      fetch("/api/update-proposal-status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          proposalId: approvalId, // assuming approvalId === proposalId
+          newStatus: "completed",
+        }),
+      }).catch((err) => {
+        console.error("Failed to update proposal status:", err);
+      });
+
+      if (onClose) onClose();
+    }
+  }, [isSuccess, onClose, approvalId]);
+
   async function handleIpfsUpload(): Promise<string> {
     if (!file) throw new Error("No file selected.");
 
