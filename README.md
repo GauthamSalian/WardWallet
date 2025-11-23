@@ -1,84 +1,99 @@
-# WardWallet
-> Transparent, Citizen-Driven Governance on Blockchain
+# WardWallet 🛡️
+### Transparent, Citizen-Driven Governance on Blockchain
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
-[![Solidity](https://img.shields.io/badge/Solidity-363636?style=for-the-badge&logo=solidity&logoColor=white)](https://soliditylang.org/)
-[![IPFS](https://img.shields.io/badge/IPFS-65C2CB?style=for-the-badge&logo=ipfs&logoColor=white)](https://ipfs.tech/)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) ![Next.js](https://img.shields.io/badge/Next.js-14-black) ![Solidity](https://img.shields.io/badge/Solidity-^0.8.0-363636) ![Status](https://img.shields.io/badge/Status-Beta-green)
 
-WardWallet is a blockchain-powered platform designed to transform municipal governance by placing transparency and accountability at the center of every decision. It aims to rebuild citizen trust by reducing corruption and making governance accessible to everyone.
+**WardWallet** is a blockchain-powered "Governance Command Center" designed to transform municipal administration. By visualizing public funds in real-time and gamifying the auditing process, we aim to rebuild citizen trust and make corruption mathematically impossible.
 
-Our vision is a future "where every citizen is an auditor and every decision is transparent."
+Our vision is a future **"where every citizen is an auditor and every decision is transparent."**
+
+---
 
 ## ⚠️ The Problem: Broken Trust in Public Governance
 
-Current systems for managing public projects often fail our communities:
-* **Corruption & Misuse:** Public projects suffer from fund mismanagement, which erodes community trust.
-* **Opaque Bidding:** Contractor selection processes lack transparency, creating opportunities for favoritism.
-* **No Accountability:** A lack of immutable records makes it impossible to verify project history and expenditures.
-* **Citizens Excluded:** Communities have no voice in the governance decisions that directly impact their neighborhoods.
+Current systems for managing public projects are "Black Boxes" that fail our communities:
+* **Corruption & Misuse:** Funds disappear into opaque ledgers with no accountability.
+* **Opaque Bidding:** Contractor selection is often rigged behind closed doors.
+* **Citizen Exclusion:** Communities have no real-time visibility into the projects affecting their neighborhoods.
+* **Passive Apathy:** Citizens feel powerless to check government work because the process is boring and bureaucratic.
+
+---
 
 ## ✨ Core Features
 
-WardWallet addresses these problems with a suite of features built on a foundation of transparency:
+WardWallet combines a futuristic user interface with robust blockchain logic:
 
-* **Citizen Proposals:** Community members can create and submit project proposals, complete with built-in reward incentives.
-* **Transparent Bidding:** Contractors submit bids in an open, auditable system visible to all stakeholders, eliminating backroom deals.
-* **Verified Approvals:** All government approvals are logged permanently and cryptographically signed on-chain, creating an immutable audit trail.
-* **Staged Payments:** Funds are released in four phases (e.g., 25%, 50%, 75%, 100%) tied to verified milestones, protecting budgets and ensuring accountability.
-* **Immutable History:** All documents, progress photos, invoices, and project updates are stored on IPFS, ensuring tamper-proof verification.
-* **Community Governance:** Citizens can vote on proposals, report issues in real-time, and provide feedback, creating true participatory democracy.
+### 🎮 The Citizen Command Center (User Experience)
+* **🟢 Live Governance Ticker:** A real-time "Pulse of Democracy" broadcasting every vote, bid, and fund release as it happens on the blockchain.
+* **🗺️ Geospatial Map:** An interactive Dark Mode map that visualizes public spending by location. See exactly which neighborhood projects are active, pending, or delayed.
+* **🛡️ Civilian Auditor System (Gamification):** Users earn **XP and Levels** for verifying proof-of-work. We turn passive residents into active "City Guardians" who validate real-world progress to earn reputation.
 
-## 🚀 How It Works: From Proposal to Completion
+### 🏛️ The Governance Engine (Blockchain Logic)
+* **💰 Staged "Trustless" Payments:** Funds are not released all at once. The Smart Contract escrows the budget and releases it in 4 tranches (25%, 50%, 75%, 100%) **only** after milestone verification.
+* **⚖️ Transparent Bidding:** A fair, open-bidding system where contractors submit sealed bids that are revealed simultaneously, preventing backroom deals and favoritism.
+* **🔏 Verified Approvals:** Every government approval is cryptographically signed and logged. We replace paper signatures with digital signatures that can never be forged.
+* **📂 Immutable History (IPFS):** All project evidence—photos, invoices, inspection reports—is pinned to IPFS. Once uploaded, history cannot be deleted or altered by corrupt officials.
+* **🗳️ Community Proposals:** A direct democratic channel for citizens to propose new infrastructure projects and vote on their priority.
 
-The project lifecycle is transparent from start to finish:
+---
 
-1.  **Citizen Submission:** A community member uses the web interface to submit a detailed proposal, including budget, timeline, and expected impact.
-2.  **Transparent Bidding:** Qualified contractors review the requirements and submit competitive bids, which are visible to all.
-3.  **Official Approval:** Municipal officials review the bids, verify contractor credentials, and approve the project on-chain with a digital signature.
-4.  **Milestone Payments:** A smart contract automatically releases funds to the contractor as verified proof-of-work is provided for each milestone (25%, 50%, 75%, 100%).
-5.  **Immutable Storage:** All progress photos, inspection reports, and invoices are uploaded to IPFS with permanent hashes.
-6.  **Citizen Accountability:** Community members vote on the final project quality, report any issues, and provide feedback that influences contractor reputation.
+## 🚀 How It Works: The Trust Protocol
+
+1.  **Citizen Proposal:** A community member submits a project proposal via the dashboard.
+2.  **Transparent Bidding:** Contractors submit sealed bids. The Smart Contract reveals them all simultaneously to ensure fair competition.
+3.  **Official Approval:** Municipal officials sign off using their digital wallet identity.
+4.  **Execution & Verification:**
+    * Contractor uploads proof (photo/video) to IPFS.
+    * **Civilian Auditors** (You!) verify the proof on the Interactive Map.
+    * Smart Contract unlocks the next tranche of funds automatically based on consensus.
+
+---
 
 ## 🛠️ Tech Stack
 
 WardWallet is built with an enterprise-grade, secure, and scalable architecture:
 
-* **Smart Contracts:** **Solidity** manages all proposals, bidding logic, payment distribution, and governance rules.
-* **Frontend:** **Next.js + TypeScript** powers the responsive, type-safe project dashboard for all users.
-* **Blockchain Integration:** **Wagmi / Viem** provides seamless blockchain connectivity and wallet management.
-* **Decentralized Storage:** **IPFS / Pinata** ensures permanent, tamper-proof storage for all project documentation and evidence files.
-* **Database:** **AWS DynamoDB** handles real-time comments, feedback loops, and user notification systems.
-* **Authentication:** **JWT** implements secure, role-based access control (RBAC) to distinguish between citizens, contractors, and officials.
-* **Blockchain Infrastructure:** **Docker + Hyperledger Besu / Quorum** is used to deploy a private blockchain infrastructure optimized for municipal governance requirements.
+* **Smart Contracts:** `Solidity` (Manages escrow, bidding logic, and reputation scoring).
+* **Frontend:** `Next.js` + `TypeScript` (The responsive Command Center dashboard).
+* **Mapping Engine:** `Leaflet.js` with Custom Dark Mode filters for geospatial visualization.
+* **Gamification Logic:** React Context API + LocalStorage persistence for XP tracking.
+* **Blockchain Integration:** `Wagmi` / `Viem` for seamless wallet connectivity.
+* **Decentralized Storage:** `IPFS` / `Pinata` for tamper-proof evidence storage.
+* **Infrastructure:** `Docker` + `Hyperledger Besu` (Private Chain) for municipal deployment testing.
 
-### Prerequisites
+---
+
+## 📦 Prerequisites
 
 * Node.js (v18.x or later)
 * npm / pnpm / yarn
-* Docker
-* A browser-based wallet (e.g., MetaMask)
+* Docker (Optional, for private chain setup)
+* A browser-based wallet (e.g., MetaMask, Rainbow)
 
-### Installation
+## ⚡ Installation
 
-1.  Clone the repository:
-    ```sh
-    git clone [https://github.com/](https://github.com/)[YOUR_USERNAME]/WardWallet.git
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/YOUR_USERNAME/WardWallet.git](https://github.com/YOUR_USERNAME/WardWallet.git)
     cd WardWallet
     ```
 
-2.  Install frontend dependencies:
-    ```sh
+2.  **Install dependencies:**
+    ```bash
     npm install
     # or
     pnpm install
     ```
 
-3.  Run the development server:
-    ```sh
+3.  **Run the development server:**
+    ```bash
     npm run dev
     ```
 
+4.  **Open the Command Center:**
+    Navigate to `http://localhost:3000` to start auditing.
+
+---
 
 ## 📄 License
 
