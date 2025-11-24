@@ -27,6 +27,21 @@ export function ApprovalProposal({
   }, [defaultProposalId]);
 
   useEffect(() => {
+    if (isSuccess) {
+      fetch("/api/update-proposal-status", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          proposalId,
+          newStatus: "approved", // or "completed" depending on context
+        }),
+      });
+
+      if (onClose) onClose();
+    }
+  }, [isSuccess, onClose, proposalId]);
+
+  useEffect(() => {
     if (isSuccess && onClose) onClose();
   }, [isSuccess, onClose]);
 
@@ -136,7 +151,7 @@ export function ApprovalProposal({
                 />
                 <br />
                 <label htmlFor="Budget" className={styles.label}>
-                  Budget (ETH):
+                  Budget (INR):
                 </label>
                 <input
                   type="text"

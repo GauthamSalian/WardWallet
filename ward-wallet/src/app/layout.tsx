@@ -1,5 +1,7 @@
-import { ProvidersClient } from "../components/ProvidersClient"; // Import from components directory
+import { ProvidersClient } from "../components/ProvidersClient";
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
+import { AuditorProvider } from "@/context/AuditorContext";
 
 export const metadata = {
   title: "Ward Wallet",
@@ -14,8 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* This wrapper provides wagmi and Web3Modal to your whole app */}
-        <ProvidersClient>{children}</ProvidersClient>
+        {/* ProvidersClient sets up WagmiProvider and RainbowKit */}
+        <ProvidersClient>
+          {/* AuditorProvider must be inside WagmiProvider */}
+          <AuditorProvider>{children}</AuditorProvider>
+        </ProvidersClient>
       </body>
     </html>
   );
